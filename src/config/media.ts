@@ -1,43 +1,15 @@
-export type MediaAsset = {
-  src: string;
-  alt: string;
-};
+export type MediaAsset = { src: string; alt: string };
 
-/**
- * Demo media configuration. Replace these assets with the client's own
- * photography before launch; never present demo imagery as client work.
- */
 export const media = {
-  hero: {
-    src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85",
-    alt: "Modern residential property exterior",
-  },
+  hero: { src: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1800&q=85", alt: "Warm independent bar atmosphere" },
   services: [
-    {
-      src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=85",
-      alt: "Well maintained modern home interior",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1556912167-f556f1f39fdf?auto=format&fit=crop&w=1200&q=85",
-      alt: "Detailed home maintenance work",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85",
-      alt: "Finished residential property detail",
-    },
+    { src: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1200&q=85", alt: "Craft beer bar" },
+    { src: "https://images.unsplash.com/photo-1547595628-c61a29f496f0?auto=format&fit=crop&w=1200&q=85", alt: "Cheese and charcuterie board" },
+    { src: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1200&q=85", alt: "Friends enjoying a social event" },
   ] satisfies MediaAsset[],
   gallery: [
-    {
-      src: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85",
-      alt: "Contemporary property exterior",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=85",
-      alt: "Premium residential interior",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1400&q=85",
-      alt: "Residential exterior and garden",
-    },
+    { src: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1400&q=85", alt: "Independent bar interior" },
+    { src: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1400&q=85", alt: "Craft beer bar detail" },
+    { src: "https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=1400&q=85", alt: "Friends gathering at an event" },
   ] satisfies MediaAsset[],
 };
