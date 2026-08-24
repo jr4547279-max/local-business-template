@@ -10,26 +10,14 @@ export type BusinessConfig = {
   bookingUrl: string;
 };
 
-/**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
- */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
+  name: "Sultan To Go",
+  email: "",
   phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
-  description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
-  services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
-  ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
-  bookingUrl: "",
+  tagline: "Eastbourne · Indian takeaway · Made to order",
+  location: "8 Susans Road, Eastbourne",
+  description: "A warm, modern Indian takeaway experience built around generous dishes, family favourites and easy ordering.",
+  services: ["Starters", "Tandoori dishes", "Main dishes", "Rice & breads", "Meal deals"],
+  enquiryTypes: ["Collection order", "Delivery enquiry", "General enquiry"],
+  bookingUrl: "https://sultan-to-go.com/",
 };
