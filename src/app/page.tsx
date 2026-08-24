@@ -7,6 +7,17 @@ const features = [
   ["03", "Events", "Live music, DJs, tasting nights and creative sessions give the taproom a reason to come back."],
 ];
 
+const menuGroups = [
+  ["Craft beer", "Tap or can", "A wide selection of craft beers sourced from local breweries and further afield."],
+  ["Beer flights", "Taste a few", "Try a selection of craft beers side-by-side and find a new favourite."],
+  ["Wine", "Curated selection", "Thoughtfully selected wines, including a sparkling red worth trying."],
+  ["Whisky", "Measure or bottle", "An extensive range for whisky lovers — enjoy by the measure or take a bottle home."],
+  ["Growlers", "Fill & refill", "Take home a reusable Ninkaci growler filled with your choice of beer."],
+  ["Bottle store", "Takeaway", "Pick up something special to enjoy later, with recommendations from the team."],
+  ["Cigars", "In-house humidor", "Hand-rolled Cuban cigars are available, with larger quantities available to order."],
+  ["Gift boxes", "Made to order", "Bespoke boxes for birthdays, Christmas, anniversaries and wedding gifts."],
+];
+
 const eventUrl = "https://www.thepaintclub.co.uk/locations/eastbourne-painting-workshops";
 
 export default function Home() {
@@ -16,7 +27,7 @@ export default function Home() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10">
           <a href="#top" className="font-serif text-2xl tracking-[-.04em]">NINKACI</a>
           <div className="hidden gap-8 text-sm text-white/55 md:flex">
-            <a href="#why" className="hover:text-white">Why Ninkaci</a><a href="#events" className="hover:text-white">Events</a><a href="#visit" className="hover:text-white">Visit</a>
+            <a href="#menu" className="hover:text-white">Menu</a><a href="#why" className="hover:text-white">Why Ninkaci</a><a href="#events" className="hover:text-white">Events</a><a href="#visit" className="hover:text-white">Visit</a>
           </div>
           <a href="tel:+441323573528" className="rounded-full bg-[#e6b86a] px-5 py-2.5 text-sm font-semibold text-black">Call to reserve</a>
         </div>
@@ -31,12 +42,33 @@ export default function Home() {
             <p className="mb-6 text-xs uppercase tracking-[.45em] text-[#e6b86a]">Independent craft beer store & taproom · Eastbourne</p>
             <h1 className="font-serif text-[18vw] leading-[.78] tracking-[-.08em] sm:text-8xl lg:text-[10rem]">Good beer.<br/><em className="text-[#e6b86a]">Good people.</em></h1>
             <p className="mt-9 max-w-xl text-lg leading-8 text-white/60 sm:text-xl">A relaxed little Eastbourne spot for changing craft pours, wine, food, music and nights worth staying out for.</p>
-            <div className="mt-10 flex flex-col gap-3 sm:flex-row"><a href="tel:+441323573528" className="rounded-full bg-[#e6b86a] px-8 py-4 text-center font-semibold text-black">Call 01323 573528</a><a href="#events" className="rounded-full border border-white/20 px-8 py-4 text-center text-white/75">See what's on ↓</a></div>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row"><a href="#menu" className="rounded-full bg-[#e6b86a] px-8 py-4 text-center font-semibold text-black">Explore the menu</a><a href="#events" className="rounded-full border border-white/20 px-8 py-4 text-center text-white/75">See what's on ↓</a></div>
           </div>
         </div>
       </section>
 
-      <section id="why" className="border-y border-white/10 bg-[#171512] px-5 py-24 lg:px-10">
+      <section id="menu" className="border-y border-white/10 bg-[#171512] px-5 py-24 lg:px-10">
+        <div className="mx-auto max-w-7xl">
+          <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div><p className="text-xs uppercase tracking-[.35em] text-[#e6b86a]">The Ninkaci menu</p><h2 className="mt-4 font-serif text-5xl tracking-[-.05em] sm:text-7xl">Drink in.<br/><em className="text-white/30">Take home.</em></h2></div>
+            <p className="max-w-sm text-sm leading-7 text-white/40">A changing selection rather than a fixed drinks list. Ask the team what is pouring today, or browse the bottle store for something to take away.</p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {menuGroups.map(([title, tag, text]) => (
+              <article key={title} className="rounded-[1.5rem] border border-white/10 bg-black/20 p-6 transition hover:-translate-y-1 hover:border-[#e6b86a]/30">
+                <div className="flex items-center justify-between gap-3"><h3 className="font-serif text-2xl">{title}</h3><span className="text-[10px] uppercase tracking-[.2em] text-[#e6b86a]">{tag}</span></div>
+                <p className="mt-5 text-sm leading-7 text-white/40">{text}</p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-col items-start justify-between gap-5 rounded-[1.5rem] border border-[#e6b86a]/20 bg-[#e6b86a]/[.06] p-7 sm:flex-row sm:items-center">
+            <div><p className="text-xs uppercase tracking-[.3em] text-[#e6b86a]">What's pouring today?</p><p className="mt-2 text-sm text-white/45">The beer list changes — call ahead and the team can tell you what's currently on.</p></div>
+            <a href="tel:+441323573528" className="shrink-0 rounded-full bg-[#e6b86a] px-6 py-3 text-sm font-semibold text-black">Call Ninkaci</a>
+          </div>
+        </div>
+      </section>
+
+      <section id="why" className="border-b border-white/10 px-5 py-24 lg:px-10">
         <div className="mx-auto max-w-7xl"><div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[.35em] text-[#e6b86a]">Why Ninkaci</p><h2 className="mt-4 font-serif text-5xl tracking-[-.05em] sm:text-7xl">A bar with<br/><em className="text-white/30">something to say.</em></h2></div><p className="max-w-sm text-sm leading-7 text-white/40">Independent, local and a little bit different. Ninkaci sits inside the Enterprise Centre, right by Eastbourne station.</p></div>
           <div className="grid gap-5 md:grid-cols-3">{features.map(([n,title,text],i)=><article key={n} className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-black/20"><div className="h-56 bg-cover bg-center" style={{backgroundImage:`url(${media.services[i].src})`}}/><div className="p-7"><span className="text-sm text-[#e6b86a]">{n}</span><h3 className="mt-10 font-serif text-3xl">{title}</h3><p className="mt-3 text-sm leading-7 text-white/40">{text}</p></div></article>)}</div>
         </div>
@@ -46,14 +78,14 @@ export default function Home() {
 
       <section className="bg-[#e6b86a] px-5 py-20 text-black lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center"><div><p className="text-xs uppercase tracking-[.35em] text-black/55">Planning a night out?</p><h2 className="mt-3 font-serif text-5xl tracking-[-.05em] sm:text-6xl">Bring the group.</h2><p className="mt-3 max-w-xl text-black/65">For group enquiries, reservations and event questions, give Ninkaci a call.</p></div><a href="tel:+441323573528" className="rounded-full bg-black px-8 py-4 text-center font-semibold text-white">Call 01323 573528</a></div></section>
 
-      <section id="visit" className="px-5 py-28 lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[1.1fr_.9fr]"><div><p className="text-xs uppercase tracking-[.35em] text-[#e6b86a]">Find us</p><h2 className="mt-5 font-serif text-6xl tracking-[-.05em] sm:text-8xl">Right by<br/><em className="text-[#e6b86a]">the station.</em></h2><p className="mt-8 max-w-xl text-lg leading-8 text-white/45">Unit 9, The Enterprise Centre, Station Parade, Eastbourne BN21 1BD.</p><a className="mt-8 inline-block text-sm underline decoration-[#e6b86a]/60 underline-offset-8" href="https://www.google.com/maps/search/?api=1&query=Unit+9+The+Enterprise+Centre+Station+Parade+Eastbourne+BN21+1BD">Get directions →</a></div><div className="rounded-[2rem] border border-white/10 bg-[#171512] p-8 sm:p-10"><p className="text-xs uppercase tracking-[.3em] text-white/35">Opening hours</p><div className="mt-8 space-y-4 text-sm">{[["Monday","Closed"],["Tuesday","12:00 – 23:00"],["Wednesday","12:00 – 23:00"],["Thursday","12:00 – 23:00"],["Friday","12:00 – 23:00"],["Saturday","12:00 – 23:00"],["Sunday","Closed"]].map(([day,hours])=><div key={day} className="flex justify-between border-b border-white/[.07] pb-3"><span className="text-white/50">{day}</span><span>{hours}</span></div>)}</div><a href="tel:+441323573528" className="mt-8 block rounded-full border border-[#e6b86a]/40 px-6 py-3 text-center text-[#e6b86a]">01323 573528</a></div></div></div></section>
+      <section id="visit" className="px-5 py-28 lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[1.1fr_.9fr]"><div><p className="text-xs uppercase tracking-[.35em] text-[#e6b86a]">Find us</p><h2 className="mt-5 font-serif text-6xl tracking-[-.05em] sm:text-8xl">Right by<br/><em className="text-[#e6b86a]">the station.</em></h2><p className="mt-8 max-w-xl text-lg leading-8 text-white/45">Unit 9, The Enterprise Centre, Station Parade, Eastbourne BN21 1BD.</p><a className="mt-8 inline-block text-sm underline decoration-[#e6b86a]/60 underline-offset-8" href="https://www.google.com/maps/search/?api=1&query=Unit+9+The+Enterprise+Centre+Station+Parade+Eastbourne+BN21+1BD">Get directions →</a></div><div className="rounded-[2rem] border border-white/10 bg-[#171512] p-8 sm:p-10"><p className="text-xs uppercase tracking-[.3em] text-white/35">Opening hours</p><div className="mt-8 space-y-4 text-sm">{[["Monday","Closed"],["Tuesday","12:00 – 22:00"],["Wednesday","12:00 – 22:00"],["Thursday","12:00 – 22:00"],["Friday","12:00 – 23:00"],["Saturday","12:00 – 23:00"],["Sunday","Closed"]].map(([day,hours])=><div key={day} className="flex justify-between border-b border-white/[.07] pb-3"><span className="text-white/50">{day}</span><span>{hours}</span></div>)}</div><a href="tel:+441323573528" className="mt-8 block rounded-full border border-[#e6b86a]/40 px-6 py-3 text-center text-[#e6b86a]">01323 573528</a></div></div></div></section>
 
       <footer className="border-t border-white/10 px-5 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[.2em] text-white/25 sm:flex-row"><p>Ninkaci · Eastbourne</p><p>Demo concept · 2026</p></div></footer>
 
       <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-white/15 bg-[#11100e]/95 px-3 py-2 pb-[calc(.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(0,0,0,.35)] backdrop-blur-xl md:hidden">
         <div className="mx-auto grid max-w-lg grid-cols-3 gap-2 text-[11px] font-medium uppercase tracking-[.12em]">
-          <a href="#why" className="rounded-xl px-2 py-3 text-center text-white/60 transition active:bg-white/10 active:text-white">🍺<span className="mt-1 block">Why us</span></a>
-          <a href="#events" className="rounded-xl bg-[#e6b86a] px-2 py-3 text-center font-semibold text-black transition active:scale-[.98]">📅<span className="mt-1 block">What's on</span></a>
+          <a href="#menu" className="rounded-xl bg-[#e6b86a] px-2 py-3 text-center font-semibold text-black transition active:scale-[.98]">🍺<span className="mt-1 block">Menu</span></a>
+          <a href="#events" className="rounded-xl px-2 py-3 text-center text-white/60 transition active:bg-white/10 active:text-white">📅<span className="mt-1 block">What's on</span></a>
           <a href="tel:+441323573528" className="rounded-xl px-2 py-3 text-center text-white/60 transition active:bg-white/10 active:text-white">📞<span className="mt-1 block">Call</span></a>
         </div>
       </div>
