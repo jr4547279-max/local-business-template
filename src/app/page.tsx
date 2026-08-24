@@ -1,95 +1,62 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { business } from "../config/business";
-import { media } from "../config/media";
-import { EnquiryForm } from "./_components/enquiry-form";
 
-const serviceCards = [
-  ["01", "Exceptional service", "Professional, reliable work delivered with care and attention to every detail."],
-  ["02", "Personal approach", "A genuinely local service built around understanding what each customer needs."],
-  ["03", "Beautiful results", "Quality you can see, experience and recommend. Nothing rushed. Nothing ordinary."],
+const walkTypes = [
+  { id: "views", icon: "◒", name: "Big views", text: "For people who want the Downs at their most dramatic.", match: ["social", "medium"] },
+  { id: "social", icon: "◌", name: "Meet people", text: "A relaxed choice if the people matter as much as the miles.", match: ["social", "short"] },
+  { id: "pub", icon: "⌁", name: "Walk + pub", text: "Explore first, then make time for lunch and refreshments.", match: ["pub", "medium"] },
+];
+
+const weeklyRhythm = [
+  { day: "WEEKLY", title: "Guided countryside walk", note: "The core Love To Walk experience" },
+  { day: "EASTBOURNE", title: "The Downs", note: "Beautiful countryside and open views" },
+  { day: "SOCIAL", title: "Meet new people", note: "A relaxed mix of people from all walks of life" },
 ];
 
 export default function Home() {
-  const [position, setPosition] = useState({ x: 50, y: 45 });
+  const [goal, setGoal] = useState("social");
+  const [pace, setPace] = useState("medium");
+  const [pub, setPub] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
-  useEffect(() => {
-    const move = (x: number, y: number) => setPosition({ x: (x / window.innerWidth) * 100, y: (y / window.innerHeight) * 100 });
-    const mouse = (e: MouseEvent) => move(e.clientX, e.clientY);
-    const touch = (e: TouchEvent) => e.touches[0] && move(e.touches[0].clientX, e.touches[0].clientY);
-    window.addEventListener("mousemove", mouse);
-    window.addEventListener("touchmove", touch, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", mouse);
-      window.removeEventListener("touchmove", touch);
-    };
-  }, []);
+  const recommendation = useMemo(() => {
+    if (pub) return walkTypes.find((w) => w.id === "pub")!;
+    if (goal === "social") return walkTypes.find((w) => w.id === "social")!;
+    return pace === "short" ? walkTypes.find((w) => w.id === "social")! : walkTypes.find((w) => w.id === "views")!;
+  }, [goal, pace, pub]);
+
+  const ask = () => {
+    const q = question.toLowerCase();
+    if (!q.trim()) return setAnswer("Try: “I want to meet people” or “I fancy a walk with a pub stop.”");
+    if (q.includes("pub") || q.includes("lunch") || q.includes("drink")) return setAnswer("Love To Walk's listed experience includes countryside walks with a stop at a pub for lunch and refreshments. 🍻");
+    if (q.includes("people") || q.includes("friend") || q.includes("social") || q.includes("alone")) return setAnswer("The walks are designed as a relaxed social experience, with people from all walks of life meeting new people while exploring the Eastbourne Downs.");
+    if (q.includes("where") || q.includes("downs") || q.includes("eastbourne")) return setAnswer("Love To Walk is based in Eastbourne and its listed walks explore the beautiful countryside and views of The Downs.");
+    if (q.includes("when") || q.includes("next") || q.includes("weekly")) return setAnswer("Love To Walk is listed as offering guided weekly walks. For the exact next date and meeting point, ask the organiser directly — I won't invent a date.");
+    return setAnswer("I can help with the kind of experience Love To Walk offers: social countryside walks, The Downs, and walks with a pub stop. Ask me about any of those.");
+  };
+
+  const mailto = `mailto:${business.email}?subject=${encodeURIComponent("I want to join Love To Walk")}&body=${encodeURIComponent(`Hi Love To Walk,\n\nI'd like to ask about joining a walk.\n\nWhat I'm looking for: ${recommendation.name}\nPreferred pace: ${pace}\nPub stop: ${pub ? "Yes" : "Not essential"}\n\nThanks!`)}`;
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-amber-400 selection:text-black">
-      <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/[0.07] bg-[#050505]/75 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <a href="#" className="text-xl font-semibold tracking-[-0.04em]">{business.name}</a>
-          <div className="hidden items-center gap-9 text-sm text-white/45 md:flex">
-            <a href="#services" className="transition hover:text-white">Services</a>
-            <a href="#work" className="transition hover:text-white">Our work</a>
-            <a href="#about" className="transition hover:text-white">About</a>
-            <a href="#enquiry-form" className="transition hover:text-white">Enquire</a>
-          </div>
-          <a href="#enquiry-form" className="rounded-full border border-amber-400/30 bg-amber-400/10 px-5 py-2.5 text-sm font-medium text-amber-300 transition hover:bg-amber-400 hover:text-black">Get Started</a>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#f3efe5] text-[#17342c] selection:bg-[#d9e85d] selection:text-[#17342c]">
+      <nav className="sticky top-0 z-50 border-b border-[#17342c]/10 bg-[#f3efe5]/90 backdrop-blur-xl"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10"><a href="#top" className="font-serif text-2xl font-semibold tracking-[-.05em]">LOVE <span className="text-[#748c32]">TO WALK</span></a><div className="hidden gap-8 text-sm text-[#17342c]/55 md:flex"><a href="#finder">Find your walk</a><a href="#rhythm">How it works</a><a href="#about">Why walk</a></div><a href="#finder" className="rounded-full bg-[#17342c] px-5 py-2.5 text-sm font-semibold text-white">Find my walk</a></div></nav>
 
-      <section className="relative flex min-h-screen items-end px-6 pb-16 pt-28 lg:px-10 lg:pb-20" style={{ background: `radial-gradient(circle 420px at ${position.x}% ${position.y}%, rgba(245,158,11,0.14), transparent 70%)` }}>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.15)_0%,rgba(5,5,5,0.4)_45%,#050505_100%)]" />
-        <div className="absolute inset-0 opacity-55" style={{ backgroundImage: `url(${media.hero.src})`, backgroundPosition: "center", backgroundSize: "cover" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,0.92)_0%,rgba(5,5,5,0.55)_45%,rgba(5,5,5,0.25)_100%)]" />
-        <div className="relative mx-auto w-full max-w-7xl">
-          <div className="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/55"><span className="h-px w-10 bg-amber-400/70" />{business.tagline}</div>
-          <h1 className="max-w-6xl text-[15vw] font-semibold leading-[0.82] tracking-[-0.075em] sm:text-8xl lg:text-[9rem]">Great<br /><span className="relative">service<span className="absolute -bottom-2 left-1 h-px w-24 bg-amber-400/80 sm:w-40" /></span><span className="text-amber-400">.</span></h1>
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_340px] lg:items-end">
-            <p className="max-w-xl text-lg leading-8 text-white/65 sm:text-xl">Professional service from a local business that genuinely cares about the details, the experience and the final result.</p>
-            <div><p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/40">The standard</p><p className="text-3xl font-medium tracking-tight">Beautiful <span className="text-amber-400">results.</span></p></div>
-          </div>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-            <a href="#enquiry-form" className="group relative overflow-hidden rounded-full bg-amber-400 px-8 py-4 text-center font-semibold text-black transition duration-300 hover:-translate-y-1"><span className="relative z-10">Book / Enquire</span><span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 group-hover:translate-x-0" /></a>
-            <a href="#work" className="rounded-full border border-white/20 bg-black/20 px-8 py-4 text-center font-medium text-white/80 backdrop-blur transition hover:border-white/35 hover:bg-white/[0.06] hover:text-white">See the work ↓</a>
-          </div>
-        </div>
-      </section>
+      <section id="top" className="relative overflow-hidden px-5 py-20 lg:px-10 lg:py-28"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.95fr_1.05fr] lg:items-center"><div><p className="text-xs font-semibold uppercase tracking-[.35em] text-[#748c32]">Eastbourne · The Downs · Weekly guided walks</p><h1 className="mt-7 font-serif text-[18vw] leading-[.78] tracking-[-.07em] sm:text-8xl lg:text-[9rem]">Walk<br/><em className="text-[#748c32]">together.</em></h1><p className="mt-9 max-w-xl text-lg leading-8 text-[#17342c]/65">Beautiful countryside. Good company. A reason to get outside and meet people while exploring the Downs around Eastbourne.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#finder" className="rounded-full bg-[#17342c] px-8 py-4 text-center font-semibold text-white">Find my kind of walk</a><a href={mailto} className="rounded-full border border-[#17342c]/15 px-8 py-4 text-center font-semibold">I want to join →</a></div><div className="mt-10 flex gap-8 border-t border-[#17342c]/10 pt-7 text-sm text-[#17342c]/45"><span><strong className="text-[#17342c]">WEEKLY</strong><br/>guided walks</span><span><strong className="text-[#17342c]">SOCIAL</strong><br/>meet new people</span><span><strong className="text-[#17342c]">DOWNS</strong><br/>beautiful views</span></div></div><div className="relative min-h-[620px] overflow-hidden rounded-[2.5rem] bg-[#17342c]"><div className="absolute inset-0 bg-[radial-gradient(circle_at_35%_30%,rgba(217,232,93,.35),transparent_28%),linear-gradient(145deg,#7d9848,#24483b_55%,#10251f)]"/><div className="absolute -right-16 top-16 h-72 w-72 rounded-full border-[2rem] border-white/10"/><div className="absolute bottom-16 left-10 right-10"><p className="text-xs uppercase tracking-[.3em] text-[#d9e85d]">The Love To Walk idea</p><h2 className="mt-4 font-serif text-5xl leading-none text-white sm:text-6xl">The walk is<br/><em>only half of it.</em></h2><p className="mt-5 max-w-md text-sm leading-7 text-white/55">The real product is getting outside, meeting people and having somewhere to go together.</p></div><div className="absolute right-8 top-8 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs text-white/65 backdrop-blur">Concept photography · replace before launch</div></div></div></section>
 
-      <section id="services" className="border-t border-white/[0.07] px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">What we do</p><h2 className="mt-5 max-w-2xl text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Less ordinary.<br /><span className="text-white/25">More memorable.</span></h2></div><p className="max-w-xs text-sm leading-6 text-white/35">A carefully considered service from first contact to final result.</p></div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {serviceCards.map(([number, title, text], index) => <article key={number} className="group overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.025] transition duration-500 hover:-translate-y-1 hover:border-amber-400/20"><div className="h-56 overflow-hidden" style={{ backgroundImage: `linear-gradient(180deg,rgba(5,5,5,0.05),rgba(5,5,5,0.55)),url(${media.services[index].src})`, backgroundPosition: "center", backgroundSize: "cover" }} /><div className="min-h-[250px] p-8"><div className="flex items-start justify-between"><span className="text-sm text-amber-400/70">{number}</span><span className="text-xl text-white/15 transition duration-500 group-hover:text-amber-400">↗</span></div><div className="mt-16"><h3 className="text-2xl font-medium tracking-tight transition group-hover:text-amber-400">{title}</h3><p className="mt-4 text-sm leading-7 text-white/40">{text}</p></div></div></article>)}
-          </div>
-        </div>
-      </section>
+      <section id="finder" className="bg-[#17342c] px-5 py-24 text-white lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr] lg:items-start"><div><p className="text-xs uppercase tracking-[.35em] text-[#d9e85d]">Smart walk finder</p><h2 className="mt-5 font-serif text-6xl leading-[.9] tracking-[-.05em] sm:text-8xl">Find the<br/><em className="text-[#d9e85d]">right vibe.</em></h2><p className="mt-7 max-w-md text-white/45">Not everyone wants the same walk. Tell us what you're after and we'll shape the recommendation.</p><div className="mt-8 rounded-2xl border border-white/10 bg-white/[.04] p-5"><p className="text-xs uppercase tracking-[.25em] text-white/35">Your match</p><p className="mt-3 font-serif text-3xl">{recommendation.name}</p><p className="mt-2 text-sm leading-6 text-white/45">{recommendation.text}</p><a href={mailto} className="mt-6 block rounded-full bg-[#d9e85d] px-5 py-3 text-center text-sm font-bold text-[#17342c]">Ask about joining →</a></div></div><div className="grid gap-5"><div className="rounded-[2rem] border border-white/10 bg-white/[.04] p-7 sm:p-9"><p className="text-xs uppercase tracking-[.25em] text-white/35">01 · What matters most?</p><div className="mt-6 grid gap-3 sm:grid-cols-2">{[["social","Meeting people"],["views","Big views / countryside"]].map(([id,label])=><button key={id} onClick={()=>setGoal(id)} className={`rounded-2xl border p-5 text-left transition ${goal===id?"border-[#d9e85d] bg-[#d9e85d] text-[#17342c]":"border-white/10 hover:border-white/25"}`}><span className="text-2xl">{id==="social"?"◌":"◒"}</span><p className="mt-8 font-medium">{label}</p></button>)}</div></div><div className="grid gap-5 sm:grid-cols-2"><div className="rounded-[2rem] border border-white/10 bg-white/[.04] p-7"><p className="text-xs uppercase tracking-[.25em] text-white/35">02 · Pace</p><div className="mt-5 flex flex-wrap gap-2">{[["short","Gentle"],["medium","Steady"],["long","I don't mind"]].map(([id,label])=><button key={id} onClick={()=>setPace(id)} className={`rounded-full border px-4 py-2 text-sm ${pace===id?"border-[#d9e85d] bg-[#d9e85d] text-[#17342c]":"border-white/10 text-white/55"}`}>{label}</button>)}</div></div><div className="rounded-[2rem] border border-white/10 bg-white/[.04] p-7"><p className="text-xs uppercase tracking-[.25em] text-white/35">03 · Pub stop?</p><button onClick={()=>setPub(!pub)} className={`mt-5 flex w-full items-center justify-between rounded-2xl border p-4 text-left ${pub?"border-[#d9e85d] bg-[#d9e85d]/10":"border-white/10"}`}><span>{pub?"Yes — sounds good":"Not essential"}</span><span className="text-[#d9e85d]">{pub?"✓":"+"}</span></button></div></div></div></div></div></section>
 
-      <section id="work" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Our work</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Made to be<br /><span className="text-white/25">noticed.</span></h2></div><p className="hidden max-w-xs text-sm leading-6 text-white/30 sm:block">A visual gallery section ready for genuine client photography.</p></div>
-          <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr]">
-            <div className="min-h-[430px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(5,5,5,0.6)),url(${media.gallery[0].src})` }}>
-              <div className="flex h-full items-end p-8"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/65 backdrop-blur">Featured project · Demo imagery</span></div>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-1">
-              {media.gallery.slice(1).map((image) => <div key={image.src} className="min-h-[205px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 30%,rgba(5,5,5,0.5)),url(${image.src})` }} />)}
-            </div>
-          </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.25em] text-white/20">Demo photography only · replace with genuine client work before launch</p>
-        </div>
-      </section>
+      <section id="rhythm" className="px-5 py-24 lg:px-10"><div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[.35em] text-[#748c32]">The rhythm</p><h2 className="mt-4 font-serif text-6xl tracking-[-.05em] sm:text-8xl">A simple<br/><span className="text-[#748c32]">idea.</span></h2></div><p className="max-w-sm text-sm leading-7 text-[#17342c]/45">Love To Walk is listed as a weekly guided walking experience around Eastbourne's countryside.</p></div><div className="mt-14 grid gap-4 md:grid-cols-3">{weeklyRhythm.map((item,index)=><article key={item.title} className="group rounded-[2rem] border border-[#17342c]/10 bg-white/50 p-8 transition hover:-translate-y-1 hover:bg-white"><p className="text-xs font-semibold tracking-[.25em] text-[#748c32]">{item.day}</p><div className="mt-20 text-5xl font-serif text-[#17342c]/10">0{index+1}</div><h3 className="mt-6 font-serif text-3xl">{item.title}</h3><p className="mt-3 text-sm leading-7 text-[#17342c]/45">{item.note}</p></article>)}</div></div></section>
 
-      <section id="about" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl"><div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-8 sm:p-14 lg:p-20"><div className="pointer-events-none absolute h-96 w-96 rounded-full bg-amber-400/[0.07] blur-3xl" style={{ left: `${position.x - 20}%`, top: `${position.y - 40}%` }} /><div className="relative max-w-4xl"><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Why choose us</p><h2 className="mt-6 text-5xl font-semibold tracking-[-0.055em] sm:text-7xl">Premium isn't<br /><span className="text-white/25">a price tag.</span></h2><p className="mt-10 max-w-2xl text-lg leading-8 text-white/40">It's the feeling that someone cared. Every interaction, every detail and every finished result should feel considered.</p><div className="mt-14 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-3"><div><p className="text-4xl font-semibold">01</p><p className="mt-2 text-sm text-white/30">Personal</p></div><div><p className="text-4xl font-semibold">02</p><p className="mt-2 text-sm text-white/30">Professional</p></div><div><p className="text-4xl font-semibold">03</p><p className="mt-2 text-sm text-white/30">Precise</p></div></div></div></div></div>
-      </section>
+      <section id="about" className="bg-[#d9e85d] px-5 py-24 text-[#17342c] lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-end"><div><p className="text-xs font-bold uppercase tracking-[.35em] text-[#526526]">Why people come</p><h2 className="mt-5 font-serif text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">Fresh air.<br/>Good people.<br/><em>Great views.</em></h2></div><div><p className="text-lg leading-8 text-[#17342c]/70">Love To Walk is aimed at single outdoor enthusiasts of all ages who want to explore Eastbourne's countryside while making new friends in a relaxed environment.</p><div className="mt-8 rounded-2xl bg-[#17342c] p-6 text-white"><p className="text-xs uppercase tracking-[.25em] text-[#d9e85d]">The social bit matters</p><p className="mt-3 font-serif text-2xl">Come for the walk. Stay for the people.</p></div></div></div></div></section>
 
-      <section id="contact" className="relative px-6 py-36 lg:px-10"><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08),transparent_45%)]" /><div className="relative mx-auto max-w-5xl"><div className="mb-16 text-center"><p className="text-xs uppercase tracking-[0.4em] text-amber-400">Start a conversation</p><h2 className="mt-7 text-6xl font-semibold tracking-[-0.065em] sm:text-8xl">Let's make<br /><span className="text-amber-400">something great.</span></h2><p className="mx-auto mt-8 max-w-lg text-lg leading-8 text-white/35">Questions, quotes or ready to get started? We'd love to hear from you.</p></div><EnquiryForm /><p className="mt-6 text-center text-sm text-white/25">Prefer email? <a className="text-amber-400/80 hover:text-amber-300" href={`mailto:${business.email}`}>{business.email}</a></p></div></section>
+      <section className="bg-[#f3efe5] px-5 py-28 lg:px-10"><div className="mx-auto max-w-5xl rounded-[2.5rem] bg-[#17342c] p-8 text-center text-white sm:p-16"><p className="text-xs uppercase tracking-[.35em] text-[#d9e85d]">Ready to get outside?</p><h2 className="mt-5 font-serif text-6xl tracking-[-.06em] sm:text-8xl">Your next walk<br/><em className="text-[#d9e85d]">starts here.</em></h2><p className="mx-auto mt-7 max-w-xl text-lg leading-8 text-white/45">Ask about the next weekly walk and find out whether Love To Walk is your kind of crowd.</p><div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row"><a href={mailto} className="rounded-full bg-[#d9e85d] px-8 py-4 font-semibold text-[#17342c]">I want to join</a><a href="#finder" className="rounded-full border border-white/15 px-8 py-4 font-semibold text-white/80">Find my vibe</a></div></div></section>
 
-      <footer className="border-t border-white/[0.07] px-6 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[0.2em] text-white/20 sm:flex-row"><p>© 2026 {business.name}</p><p>Local · Professional · Trusted</p></div></footer>
+      <section className="bg-[#17342c] px-5 py-20 text-white lg:px-10"><div className="mx-auto max-w-5xl rounded-[2rem] border border-white/10 bg-white/[.04] p-7 sm:p-10"><div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"><div><p className="text-xs uppercase tracking-[.3em] text-[#d9e85d]">Ask the walk guide</p><h3 className="mt-3 font-serif text-4xl">Not sure? Ask.</h3><p className="mt-2 max-w-xl text-sm leading-6 text-white/40">A grounded demo assistant that only answers from the business information we have — no made-up dates or routes.</p></div><div className="flex w-full max-w-xl gap-2"><input value={question} onChange={e=>setQuestion(e.target.value)} onKeyDown={e=>e.key==='Enter'&&ask()} placeholder="Is there a pub stop?" className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/25 outline-none"/><button onClick={ask} className="rounded-xl bg-[#d9e85d] px-5 py-3 text-sm font-semibold text-[#17342c]">Ask</button></div></div>{answer&&<div className="mt-5 rounded-xl border border-[#d9e85d]/20 bg-[#d9e85d]/5 p-4 text-sm leading-6 text-white/70">{answer}</div>}</div></section>
+
+      <footer className="border-t border-white/10 bg-[#17342c] px-5 py-10 text-white lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[.2em] text-white/25 sm:flex-row"><p>© 2026 {business.name}</p><p>Demo concept · Eastbourne</p></div></footer><div className="fixed inset-x-0 bottom-0 z-50 border-t border-[#17342c]/15 bg-[#f3efe5]/95 px-3 py-2 pb-[calc(.5rem+env(safe-area-inset-bottom))] backdrop-blur-xl md:hidden"><div className="mx-auto grid max-w-lg grid-cols-3 gap-2 text-[11px] font-semibold uppercase tracking-[.12em]"><a href="#finder" className="rounded-xl bg-[#17342c] px-2 py-3 text-center text-white">✦<span className="mt-1 block">Find walk</span></a><a href="#rhythm" className="rounded-xl px-2 py-3 text-center text-[#17342c]/65">◌<span className="mt-1 block">How it works</span></a><a href={mailto} className="rounded-xl px-2 py-3 text-center text-[#17342c]/65">↗<span className="mt-1 block">Join</span></a></div></div>
     </main>
   );
 }
