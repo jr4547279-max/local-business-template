@@ -10,26 +10,14 @@ export type BusinessConfig = {
   bookingUrl: string;
 };
 
-/**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
- */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
-  phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
-  description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
-  services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
-  ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
-  bookingUrl: "",
+  name: "Dotty's Vintage Travelling Tea Company",
+  email: "dottysteas@gmail.com",
+  phone: "01323 485909",
+  tagline: "Vintage afternoon tea · Eastbourne & East Sussex",
+  location: "Eastbourne, East Sussex",
+  description: "A vintage afternoon tea experience brought to your door, complete with homemade treats and beautiful vintage tableware.",
+  services: ["Afternoon tea at home", "Birthdays", "Hen parties", "Baby showers", "Special occasions"],
+  enquiryTypes: ["Birthday", "Hen party", "Baby shower", "Special occasion", "General enquiry"],
+  bookingUrl: "mailto:dottysteas@gmail.com",
 };

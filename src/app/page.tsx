@@ -1,95 +1,45 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { business } from "../config/business";
 import { media } from "../config/media";
-import { EnquiryForm } from "./_components/enquiry-form";
 
-const serviceCards = [
-  ["01", "Exceptional service", "Professional, reliable work delivered with care and attention to every detail."],
-  ["02", "Personal approach", "A genuinely local service built around understanding what each customer needs."],
-  ["03", "Beautiful results", "Quality you can see, experience and recommend. Nothing rushed. Nothing ordinary."],
+const occasions = [
+  ["Birthday", "A beautiful tea party without the faff."],
+  ["Hen party", "Vintage charm for a memorable get-together."],
+  ["Baby shower", "A relaxed afternoon made for celebrating."],
+  ["Special occasion", "Tell us what you're planning and we'll help."],
 ];
+const extras = ["Vintage tableware", "Decorations / styling", "Dietary requirements", "Something else"];
 
 export default function Home() {
-  const [position, setPosition] = useState({ x: 50, y: 45 });
-
-  useEffect(() => {
-    const move = (x: number, y: number) => setPosition({ x: (x / window.innerWidth) * 100, y: (y / window.innerHeight) * 100 });
-    const mouse = (e: MouseEvent) => move(e.clientX, e.clientY);
-    const touch = (e: TouchEvent) => e.touches[0] && move(e.touches[0].clientX, e.touches[0].clientY);
-    window.addEventListener("mousemove", mouse);
-    window.addEventListener("touchmove", touch, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", mouse);
-      window.removeEventListener("touchmove", touch);
-    };
-  }, []);
+  const [occasion, setOccasion] = useState("Birthday");
+  const [guests, setGuests] = useState("8–12");
+  const [date, setDate] = useState("");
+  const [location, setLocation] = useState("");
+  const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
+  const toggleExtra = (extra: string) => setSelectedExtras((current) => current.includes(extra) ? current.filter((item) => item !== extra) : [...current, extra]);
+  const email = useMemo(() => {
+    const extrasText = selectedExtras.length ? selectedExtras.join(", ") : "None selected";
+    return `mailto:${business.email}?subject=${encodeURIComponent(`${occasion} tea party enquiry`)}&body=${encodeURIComponent(`Hi Dotty's,\n\nI'm interested in a ${occasion.toLowerCase()} afternoon tea for ${guests} guests.\n\nPreferred date: ${date || "To discuss"}\nLocation / postcode: ${location || "To discuss"}\nExtras / requirements: ${extrasText}\n\nAdditional details:\n\nThanks!`)}`;
+  }, [occasion, guests, date, location, selectedExtras]);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-amber-400 selection:text-black">
-      <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/[0.07] bg-[#050505]/75 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <a href="#" className="text-xl font-semibold tracking-[-0.04em]">{business.name}</a>
-          <div className="hidden items-center gap-9 text-sm text-white/45 md:flex">
-            <a href="#services" className="transition hover:text-white">Services</a>
-            <a href="#work" className="transition hover:text-white">Our work</a>
-            <a href="#about" className="transition hover:text-white">About</a>
-            <a href="#enquiry-form" className="transition hover:text-white">Enquire</a>
-          </div>
-          <a href="#enquiry-form" className="rounded-full border border-amber-400/30 bg-amber-400/10 px-5 py-2.5 text-sm font-medium text-amber-300 transition hover:bg-amber-400 hover:text-black">Get Started</a>
-        </div>
-      </nav>
+    <main className="min-h-screen bg-[#fbf3e5] text-[#3c2a20] pb-16 selection:bg-[#b9784d] selection:text-white">
+      <nav className="sticky top-0 z-50 border-b border-[#3c2a20]/10 bg-[#fbf3e5]/90 backdrop-blur-xl"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10"><a href="#top" className="font-serif text-xl font-semibold tracking-[-.04em]">DOTTY'S <span className="text-[#b9784d]">TEAS</span></a><div className="hidden gap-8 text-sm text-[#3c2a20]/60 md:flex"><a href="#experience">The experience</a><a href="#occasions">Occasions</a><a href="#gallery">Gallery</a><a href="#contact">Contact</a></div><a href="#occasions" className="rounded-full bg-[#3c2a20] px-5 py-2.5 text-sm font-semibold text-[#fbf3e5]">Plan your tea</a></div></nav>
 
-      <section className="relative flex min-h-screen items-end px-6 pb-16 pt-28 lg:px-10 lg:pb-20" style={{ background: `radial-gradient(circle 420px at ${position.x}% ${position.y}%, rgba(245,158,11,0.14), transparent 70%)` }}>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.15)_0%,rgba(5,5,5,0.4)_45%,#050505_100%)]" />
-        <div className="absolute inset-0 opacity-55" style={{ backgroundImage: `url(${media.hero.src})`, backgroundPosition: "center", backgroundSize: "cover" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,0.92)_0%,rgba(5,5,5,0.55)_45%,rgba(5,5,5,0.25)_100%)]" />
-        <div className="relative mx-auto w-full max-w-7xl">
-          <div className="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/55"><span className="h-px w-10 bg-amber-400/70" />{business.tagline}</div>
-          <h1 className="max-w-6xl text-[15vw] font-semibold leading-[0.82] tracking-[-0.075em] sm:text-8xl lg:text-[9rem]">Great<br /><span className="relative">service<span className="absolute -bottom-2 left-1 h-px w-24 bg-amber-400/80 sm:w-40" /></span><span className="text-amber-400">.</span></h1>
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_340px] lg:items-end">
-            <p className="max-w-xl text-lg leading-8 text-white/65 sm:text-xl">Professional service from a local business that genuinely cares about the details, the experience and the final result.</p>
-            <div><p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/40">The standard</p><p className="text-3xl font-medium tracking-tight">Beautiful <span className="text-amber-400">results.</span></p></div>
-          </div>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-            <a href="#enquiry-form" className="group relative overflow-hidden rounded-full bg-amber-400 px-8 py-4 text-center font-semibold text-black transition duration-300 hover:-translate-y-1"><span className="relative z-10">Book / Enquire</span><span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 group-hover:translate-x-0" /></a>
-            <a href="#work" className="rounded-full border border-white/20 bg-black/20 px-8 py-4 text-center font-medium text-white/80 backdrop-blur transition hover:border-white/35 hover:bg-white/[0.06] hover:text-white">See the work ↓</a>
-          </div>
-        </div>
-      </section>
+      <section id="top" className="relative overflow-hidden px-5 py-20 lg:px-10 lg:py-28"><div className="absolute right-[-10%] top-[-8%] h-[32rem] w-[32rem] rounded-full bg-[#d9a06f]/25 blur-3xl"/><div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[.9fr_1.1fr] lg:items-center"><div className="relative z-10"><p className="text-xs uppercase tracking-[.35em] text-[#b9784d]">Vintage afternoon tea · Eastbourne & East Sussex</p><h1 className="mt-7 font-serif text-7xl leading-[.82] tracking-[-.06em] sm:text-8xl lg:text-[7.5rem]">Tea,<br/><em className="text-[#b9784d]">but make it</em><br/>an occasion.</h1><p className="mt-8 max-w-xl text-lg leading-8 text-[#3c2a20]/65">Dotty's brings homemade scones, cakes, delicate sandwiches and beautiful vintage tableware to your door — perfect for birthdays, hens, baby showers and days worth celebrating.</p><div className="mt-9 flex flex-col gap-3 sm:flex-row"><a href="#occasions" className="rounded-full bg-[#b9784d] px-8 py-4 text-center font-semibold text-white">Plan your tea party</a><a href="tel:+441323485909" className="rounded-full border border-[#3c2a20]/20 px-8 py-4 text-center font-semibold">Call 01323 485909</a></div></div><div className="relative min-h-[600px] overflow-hidden rounded-[2.5rem] border-8 border-white shadow-2xl shadow-[#6e4933]/10"><div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage:`url(${media.hero.src})`}}/><div className="absolute bottom-6 left-6 rounded-full bg-white/90 px-5 py-3 text-xs uppercase tracking-[.2em] text-[#3c2a20]">Demo photography · replace before launch</div></div></div></section>
 
-      <section id="services" className="border-t border-white/[0.07] px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">What we do</p><h2 className="mt-5 max-w-2xl text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Less ordinary.<br /><span className="text-white/25">More memorable.</span></h2></div><p className="max-w-xs text-sm leading-6 text-white/35">A carefully considered service from first contact to final result.</p></div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {serviceCards.map(([number, title, text], index) => <article key={number} className="group overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.025] transition duration-500 hover:-translate-y-1 hover:border-amber-400/20"><div className="h-56 overflow-hidden" style={{ backgroundImage: `linear-gradient(180deg,rgba(5,5,5,0.05),rgba(5,5,5,0.55)),url(${media.services[index].src})`, backgroundPosition: "center", backgroundSize: "cover" }} /><div className="min-h-[250px] p-8"><div className="flex items-start justify-between"><span className="text-sm text-amber-400/70">{number}</span><span className="text-xl text-white/15 transition duration-500 group-hover:text-amber-400">↗</span></div><div className="mt-16"><h3 className="text-2xl font-medium tracking-tight transition group-hover:text-amber-400">{title}</h3><p className="mt-4 text-sm leading-7 text-white/40">{text}</p></div></div></article>)}
-          </div>
-        </div>
-      </section>
+      <section id="experience" className="border-y border-[#3c2a20]/10 bg-white/50 px-5 py-24 lg:px-10"><div className="mx-auto max-w-7xl"><div className="max-w-3xl"><p className="text-xs uppercase tracking-[.35em] text-[#b9784d]">The Dotty's experience</p><h2 className="mt-5 font-serif text-5xl tracking-[-.05em] sm:text-7xl">Everything you need for a <em>proper</em> afternoon tea.</h2><p className="mt-7 text-lg leading-8 text-[#3c2a20]/55">It's not just food delivered to a doorstep. Dotty's brings the little details too — homemade treats, vintage tableware and the feeling that someone has thought about the whole afternoon.</p></div><div className="mt-14 grid gap-5 md:grid-cols-3">{[["01","Homemade treats","Scones, cakes and delicate sandwiches prepared for the occasion."],["02","Vintage tableware","A charming vintage setup that turns tea into an experience."],["03","Delivered to you","A special afternoon without needing to organise a venue."]].map(([n,t,d],i)=><article key={n} className="overflow-hidden rounded-[1.75rem] border border-[#3c2a20]/10 bg-white"><div className="h-60 bg-cover bg-center" style={{backgroundImage:`url(${media.services[i].src})`}}/><div className="p-7"><span className="text-sm text-[#b9784d]">{n}</span><h3 className="mt-10 font-serif text-3xl">{t}</h3><p className="mt-3 text-sm leading-7 text-[#3c2a20]/50">{d}</p></div></article>)}</div></div></section>
 
-      <section id="work" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Our work</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Made to be<br /><span className="text-white/25">noticed.</span></h2></div><p className="hidden max-w-xs text-sm leading-6 text-white/30 sm:block">A visual gallery section ready for genuine client photography.</p></div>
-          <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr]">
-            <div className="min-h-[430px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(5,5,5,0.6)),url(${media.gallery[0].src})` }}>
-              <div className="flex h-full items-end p-8"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/65 backdrop-blur">Featured project · Demo imagery</span></div>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-1">
-              {media.gallery.slice(1).map((image) => <div key={image.src} className="min-h-[205px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 30%,rgba(5,5,5,0.5)),url(${image.src})` }} />)}
-            </div>
-          </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.25em] text-white/20">Demo photography only · replace with genuine client work before launch</p>
-        </div>
-      </section>
+      <section id="occasions" className="px-5 py-28 lg:px-10"><div className="mx-auto max-w-7xl"><div className="mb-12"><p className="text-xs uppercase tracking-[.35em] text-[#b9784d]">Plan your tea party</p><h2 className="mt-4 font-serif text-6xl tracking-[-.05em] sm:text-8xl">Tell us what<br/><em className="text-[#b9784d]">you're planning.</em></h2><p className="mt-5 max-w-2xl text-[#3c2a20]/55">Build a quick brief and we'll put the details into your enquiry for you. Nothing is booked or paid for here.</p></div><div className="grid gap-10 lg:grid-cols-[1fr_.8fr]"><div className="grid gap-4 sm:grid-cols-2">{occasions.map(([title,desc])=><button key={title} onClick={()=>setOccasion(title)} className={`rounded-[1.5rem] border p-7 text-left transition ${occasion===title?"border-[#b9784d] bg-[#b9784d] text-white shadow-xl":"border-[#3c2a20]/10 bg-white/60 hover:-translate-y-1"}`}><span className="text-2xl">{occasion===title?"♥":"♡"}</span><h3 className="mt-12 font-serif text-3xl">{title}</h3><p className={`mt-3 text-sm leading-6 ${occasion===title?"text-white/75":"text-[#3c2a20]/50"}`}>{desc}</p></button>)}</div><div className="rounded-[2rem] bg-[#3c2a20] p-8 text-[#fbf3e5] sm:p-10"><p className="text-xs uppercase tracking-[.3em] text-[#e1b18c]">Your tea party</p><h3 className="mt-5 font-serif text-4xl">{occasion}</h3><label className="mt-8 block text-sm text-white/60">Approximate guests</label><select value={guests} onChange={e=>setGuests(e.target.value)} className="mt-2 w-full rounded-xl border border-white/15 bg-white/10 px-4 py-4 text-white outline-none"><option className="text-black">2–4</option><option className="text-black">5–7</option><option className="text-black">8–12</option><option className="text-black">13+</option></select><label className="mt-5 block text-sm text-white/60">Preferred date</label><input type="date" value={date} onChange={e=>setDate(e.target.value)} className="mt-2 w-full rounded-xl border border-white/15 bg-white/10 px-4 py-4 text-white outline-none"/><label className="mt-5 block text-sm text-white/60">Location / postcode</label><input value={location} onChange={e=>setLocation(e.target.value)} placeholder="e.g. Eastbourne BN20" className="mt-2 w-full rounded-xl border border-white/15 bg-white/10 px-4 py-4 text-white placeholder:text-white/30 outline-none"/><div className="mt-6"><p className="text-sm text-white/60">Anything else?</p><div className="mt-3 grid gap-2 sm:grid-cols-2">{extras.map(extra=><button type="button" key={extra} onClick={()=>toggleExtra(extra)} className={`rounded-xl border px-3 py-3 text-left text-xs transition ${selectedExtras.includes(extra)?"border-[#e1b18c] bg-[#e1b18c]/15 text-[#e1b18c]":"border-white/10 text-white/55 hover:border-white/25"}`}>{selectedExtras.includes(extra)?"✓ ":""}{extra}</button>)}</div></div><a href={email} className="mt-8 block rounded-full bg-[#e1b18c] px-6 py-4 text-center font-semibold text-[#3c2a20]">Request availability →</a><p className="mt-4 text-center text-xs text-white/30">Your email app will open with the brief pre-filled.</p></div></div></div></section>
 
-      <section id="about" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl"><div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-8 sm:p-14 lg:p-20"><div className="pointer-events-none absolute h-96 w-96 rounded-full bg-amber-400/[0.07] blur-3xl" style={{ left: `${position.x - 20}%`, top: `${position.y - 40}%` }} /><div className="relative max-w-4xl"><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Why choose us</p><h2 className="mt-6 text-5xl font-semibold tracking-[-0.055em] sm:text-7xl">Premium isn't<br /><span className="text-white/25">a price tag.</span></h2><p className="mt-10 max-w-2xl text-lg leading-8 text-white/40">It's the feeling that someone cared. Every interaction, every detail and every finished result should feel considered.</p><div className="mt-14 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-3"><div><p className="text-4xl font-semibold">01</p><p className="mt-2 text-sm text-white/30">Personal</p></div><div><p className="text-4xl font-semibold">02</p><p className="mt-2 text-sm text-white/30">Professional</p></div><div><p className="text-4xl font-semibold">03</p><p className="mt-2 text-sm text-white/30">Precise</p></div></div></div></div></div>
-      </section>
+      <section id="gallery" className="bg-[#d9a06f]/20 px-5 py-24 lg:px-10"><div className="mx-auto max-w-7xl"><div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[.35em] text-[#b9784d]">A little vintage magic</p><h2 className="mt-4 font-serif text-5xl sm:text-7xl">Set the table.</h2></div><p className="hidden max-w-xs text-sm leading-6 text-[#3c2a20]/45 sm:block">Demo imagery shown for concept purposes — replace with Dotty's own photographs before launch.</p></div><div className="grid gap-5 md:grid-cols-[1.15fr_.85fr]"><div className="min-h-[500px] rounded-[2rem] bg-cover bg-center" style={{backgroundImage:`url(${media.gallery[0].src})`}}/><div className="grid gap-5"><div className="min-h-[240px] rounded-[2rem] bg-cover bg-center" style={{backgroundImage:`url(${media.gallery[1].src})`}}/><div className="min-h-[240px] rounded-[2rem] bg-cover bg-center" style={{backgroundImage:`url(${media.gallery[2].src})`}}/></div></div></div></section>
 
-      <section id="contact" className="relative px-6 py-36 lg:px-10"><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08),transparent_45%)]" /><div className="relative mx-auto max-w-5xl"><div className="mb-16 text-center"><p className="text-xs uppercase tracking-[0.4em] text-amber-400">Start a conversation</p><h2 className="mt-7 text-6xl font-semibold tracking-[-0.065em] sm:text-8xl">Let's make<br /><span className="text-amber-400">something great.</span></h2><p className="mx-auto mt-8 max-w-lg text-lg leading-8 text-white/35">Questions, quotes or ready to get started? We'd love to hear from you.</p></div><EnquiryForm /><p className="mt-6 text-center text-sm text-white/25">Prefer email? <a className="text-amber-400/80 hover:text-amber-300" href={`mailto:${business.email}`}>{business.email}</a></p></div></section>
+      <section id="contact" className="px-5 py-28 lg:px-10"><div className="mx-auto max-w-5xl rounded-[2.5rem] bg-[#3c2a20] p-8 text-center text-[#fbf3e5] sm:p-16"><p className="text-xs uppercase tracking-[.35em] text-[#e1b18c]">Ready when you are</p><h2 className="mt-5 font-serif text-6xl tracking-[-.05em] sm:text-8xl">Make it<br/><em className="text-[#e1b18c]">a day to remember.</em></h2><p className="mx-auto mt-7 max-w-xl text-lg leading-8 text-white/55">Based in Eastbourne and bringing vintage afternoon tea experiences to your door.</p><div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row"><a href="#occasions" className="rounded-full bg-[#e1b18c] px-8 py-4 font-semibold text-[#3c2a20]">Plan your tea</a><a href="tel:+441323485909" className="rounded-full border border-white/20 px-8 py-4 font-semibold text-white">Call 01323 485909</a></div></div></section>
 
-      <footer className="border-t border-white/[0.07] px-6 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[0.2em] text-white/20 sm:flex-row"><p>© 2026 {business.name}</p><p>Local · Professional · Trusted</p></div></footer>
+      <footer className="border-t border-[#3c2a20]/10 px-5 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[.2em] text-[#3c2a20]/35 sm:flex-row"><p>© 2026 {business.name}</p><p>Demo concept · Eastbourne</p></div></footer>
+      <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-[#3c2a20]/15 bg-[#fbf3e5]/95 px-3 py-2 pb-[calc(.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(60,42,32,.12)] backdrop-blur-xl md:hidden"><div className="mx-auto grid max-w-lg grid-cols-3 gap-2 text-[11px] font-medium uppercase tracking-[.12em]"><a href="#experience" className="rounded-xl px-2 py-3 text-center text-[#3c2a20]/65">☕<span className="mt-1 block">Experience</span></a><a href="#occasions" className="rounded-xl bg-[#b9784d] px-2 py-3 text-center font-semibold text-white">♥<span className="mt-1 block">Plan tea</span></a><a href="tel:+441323485909" className="rounded-xl px-2 py-3 text-center text-[#3c2a20]/65">📞<span className="mt-1 block">Call</span></a></div></div>
     </main>
   );
 }
