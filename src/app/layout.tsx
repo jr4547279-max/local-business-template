@@ -14,9 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: `${business.name} | ${business.tagline.replaceAll(" · ", " · ")}`,
+  title: business.name,
   description: business.description,
-  metadataBase: new URL("https://example.com"),
   openGraph: {
     title: business.name,
     description: business.description,
