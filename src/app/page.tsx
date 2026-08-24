@@ -17,7 +17,7 @@ export default function Home() {
           <div className="hidden items-center gap-7 text-sm text-white/60 md:flex">
             <Link href="/menu" className="hover:text-white">Menu</Link><Link href="/about" className="hover:text-white">Our story</Link><Link href="/offers" className="hover:text-white">Offers</Link><Link href="/contact" className="hover:text-white">Contact</Link>
           </div>
-          <a href={business.bookingUrl} target="_blank" rel="noreferrer" className="rounded-full bg-orange-400 px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-orange-300">Order now</a>
+          <Link href="/menu" className="rounded-full bg-orange-400 px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-orange-300">Order now</Link>
         </div>
       </nav>
 
@@ -31,7 +31,7 @@ export default function Home() {
             <h1 className="text-[17vw] font-semibold leading-[.82] tracking-[-.08em] sm:text-8xl lg:text-[9rem]">Good food.<br /><span className="text-orange-400">No fuss.</span></h1>
             <p className="mt-9 max-w-xl text-lg leading-8 text-white/65 sm:text-xl">Bold Indian favourites, generous portions and an easier way to order your next night in.</p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-              <a href={business.bookingUrl} target="_blank" rel="noreferrer" className="rounded-full bg-orange-400 px-8 py-4 text-center font-semibold text-black hover:bg-orange-300">Order online ↗</a>
+              <Link href="/menu" className="rounded-full bg-orange-400 px-8 py-4 text-center font-semibold text-black hover:bg-orange-300">Order online</Link>
               <Link href="/menu" className="rounded-full border border-white/20 bg-black/20 px-8 py-4 text-center font-medium text-white/80 hover:border-white/40 hover:text-white">Explore the menu</Link>
             </div>
           </div>
@@ -46,7 +46,7 @@ export default function Home() {
 
       <section className="px-5 py-24 lg:px-10"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[1.1fr_.9fr] lg:items-center"><div><p className="text-xs uppercase tracking-[.35em] text-orange-400">Made for nights in</p><h2 className="mt-5 text-5xl font-semibold tracking-[-.06em] sm:text-7xl">Pick your<br /><span className="text-orange-400">perfect feast.</span></h2><p className="mt-7 max-w-xl text-lg leading-8 text-white/45">From a quick curry after work to a table full of sharing dishes, the menu is built around the food people actually want to order.</p><div className="mt-9 flex flex-wrap gap-3"><span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Mild → hot</span><span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Vegetarian choices</span><span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Collection</span><span className="rounded-full border border-white/10 px-4 py-2 text-sm text-white/60">Delivery</span></div></div><div className="min-h-[520px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{backgroundImage:`linear-gradient(180deg,transparent 30%,rgba(16,13,10,.7)),url(${media.gallery[1].src})`}}><div className="flex h-full items-end p-8"><p className="text-xs uppercase tracking-[.3em] text-white/50">Demo photography · replace before launch</p></div></div></div></section>
 
-      <section className="bg-orange-400 px-5 py-20 text-black lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center"><div><p className="text-xs uppercase tracking-[.35em] text-black/60">Hungry?</p><h2 className="mt-3 text-5xl font-semibold tracking-[-.06em] sm:text-6xl">Let's sort dinner.</h2></div><a href={business.bookingUrl} target="_blank" rel="noreferrer" className="rounded-full bg-black px-8 py-4 text-center font-semibold text-white hover:bg-black/80">Order now ↗</a></div></section>
+      <section className="bg-orange-400 px-5 py-20 text-black lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-8 md:flex-row md:items-center"><div><p className="text-xs uppercase tracking-[.35em] text-black/60">Hungry?</p><h2 className="mt-3 text-5xl font-semibold tracking-[-.06em] sm:text-6xl">Let's sort dinner.</h2></div><Link href="/menu" className="rounded-full bg-black px-8 py-4 text-center font-semibold text-white hover:bg-black/80">Order now</Link></div></section>
 
       <footer className="border-t border-white/10 px-5 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col gap-4 text-xs uppercase tracking-[.2em] text-white/30 sm:flex-row sm:justify-between"><p>{business.name} · {business.location}</p><p>Demo concept · 2026</p></div></footer>
     </main>
