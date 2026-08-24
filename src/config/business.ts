@@ -10,26 +10,14 @@ export type BusinessConfig = {
   bookingUrl: string;
 };
 
-/**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
- */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
-  phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
-  description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
-  services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
-  ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
-  bookingUrl: "",
+  name: "Secret Beauty World",
+  email: "mindasamanta@gmail.com",
+  phone: "07799 673918",
+  tagline: "Nails · Lashes · Brows · Beauty",
+  location: "Queens Gardens, Eastbourne",
+  description: "A private Eastbourne beauty studio specialising in nails, lashes and brows, with online booking made simple.",
+  services: ["Gel nails", "Lashes", "Brows", "Nail art", "Permanent makeup"],
+  enquiryTypes: ["Book an appointment", "Treatment enquiry", "General enquiry"],
+  bookingUrl: "https://booksy.com/en-gb/179397_secret-beauty-world_nail-salon_800824_eastbourne",
 };
