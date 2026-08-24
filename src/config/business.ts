@@ -19,5 +19,5 @@ export const business: BusinessConfig = {
   description: "A warm, modern Indian takeaway experience built around generous dishes, family favourites and easy ordering.",
   services: ["Starters", "Tandoori dishes", "Main dishes", "Rice & breads", "Meal deals"],
   enquiryTypes: ["Collection order", "Delivery enquiry", "General enquiry"],
-  bookingUrl: "https://sultan-to-go.com/",
+  bookingUrl: "/order",
 };
