@@ -11,7 +11,7 @@ const eventUrl = "https://www.thepaintclub.co.uk/locations/eastbourne-painting-w
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#11100e] text-[#f5efe4] selection:bg-[#e6b86a] selection:text-black">
+    <main className="min-h-screen bg-[#11100e] pb-16 text-[#f5efe4] selection:bg-[#e6b86a] selection:text-black">
       <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#11100e]/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10">
           <a href="#top" className="font-serif text-2xl tracking-[-.04em]">NINKACI</a>
@@ -49,6 +49,14 @@ export default function Home() {
       <section id="visit" className="px-5 py-28 lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[1.1fr_.9fr]"><div><p className="text-xs uppercase tracking-[.35em] text-[#e6b86a]">Find us</p><h2 className="mt-5 font-serif text-6xl tracking-[-.05em] sm:text-8xl">Right by<br/><em className="text-[#e6b86a]">the station.</em></h2><p className="mt-8 max-w-xl text-lg leading-8 text-white/45">Unit 9, The Enterprise Centre, Station Parade, Eastbourne BN21 1BD.</p><a className="mt-8 inline-block text-sm underline decoration-[#e6b86a]/60 underline-offset-8" href="https://www.google.com/maps/search/?api=1&query=Unit+9+The+Enterprise+Centre+Station+Parade+Eastbourne+BN21+1BD">Get directions →</a></div><div className="rounded-[2rem] border border-white/10 bg-[#171512] p-8 sm:p-10"><p className="text-xs uppercase tracking-[.3em] text-white/35">Opening hours</p><div className="mt-8 space-y-4 text-sm">{[["Monday","Closed"],["Tuesday","12:00 – 23:00"],["Wednesday","12:00 – 23:00"],["Thursday","12:00 – 23:00"],["Friday","12:00 – 23:00"],["Saturday","12:00 – 23:00"],["Sunday","Closed"]].map(([day,hours])=><div key={day} className="flex justify-between border-b border-white/[.07] pb-3"><span className="text-white/50">{day}</span><span>{hours}</span></div>)}</div><a href="tel:+441323573528" className="mt-8 block rounded-full border border-[#e6b86a]/40 px-6 py-3 text-center text-[#e6b86a]">01323 573528</a></div></div></div></section>
 
       <footer className="border-t border-white/10 px-5 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[.2em] text-white/25 sm:flex-row"><p>Ninkaci · Eastbourne</p><p>Demo concept · 2026</p></div></footer>
+
+      <div className="fixed inset-x-0 bottom-0 z-[60] border-t border-white/15 bg-[#11100e]/95 px-3 py-2 pb-[calc(.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(0,0,0,.35)] backdrop-blur-xl md:hidden">
+        <div className="mx-auto grid max-w-lg grid-cols-3 gap-2 text-[11px] font-medium uppercase tracking-[.12em]">
+          <a href="#why" className="rounded-xl px-2 py-3 text-center text-white/60 transition active:bg-white/10 active:text-white">🍺<span className="mt-1 block">Why us</span></a>
+          <a href="#events" className="rounded-xl bg-[#e6b86a] px-2 py-3 text-center font-semibold text-black transition active:scale-[.98]">📅<span className="mt-1 block">What's on</span></a>
+          <a href="tel:+441323573528" className="rounded-xl px-2 py-3 text-center text-white/60 transition active:bg-white/10 active:text-white">📞<span className="mt-1 block">Call</span></a>
+        </div>
+      </div>
     </main>
   );
 }
