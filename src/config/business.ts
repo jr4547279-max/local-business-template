@@ -19,5 +19,5 @@ export const business: BusinessConfig = {
   description: "A private Eastbourne beauty studio specialising in nails, lashes and brows, with online booking made simple.",
   services: ["Gel nails", "Lashes", "Brows", "Nail art", "Permanent makeup"],
   enquiryTypes: ["Book an appointment", "Treatment enquiry", "General enquiry"],
-  bookingUrl: "https://booksy.com/en-gb/179397_secret-beauty-world_nail-salon_800824_eastbourne",
+  bookingUrl: "mailto:mindasamanta@gmail.com?subject=Appointment%20request%20from%20Secret%20Beauty%20World%20website",
 };
