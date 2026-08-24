@@ -10,26 +10,14 @@ export type BusinessConfig = {
   bookingUrl: string;
 };
 
-/**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
- */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
+  name: "Love To Walk",
+  email: "lovetowalk.co.uk@gmail.com",
   phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
-  description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
-  services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
-  ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
+  tagline: "Eastbourne · Guided countryside walks · Meet people",
+  location: "Eastbourne, East Sussex",
+  description: "Weekly guided countryside walks around Eastbourne, bringing people together to explore the Downs in a relaxed, social setting.",
+  services: ["Weekly guided walks", "Social countryside walks", "The Downs", "Pub-stop walks"],
+  enquiryTypes: ["I want to join", "Ask about the next walk", "General enquiry"],
   bookingUrl: "",
 };
