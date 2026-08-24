@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { business } from "../../config/business";
 
 type FormState = {
@@ -27,11 +27,19 @@ const initialState: FormState = {
   message: "",
 };
 
+function getTodayLocal() {
+  const now = new Date();
+  const offset = now.getTimezoneOffset();
+  const local = new Date(now.getTime() - offset * 60_000);
+  return local.toISOString().slice(0, 10);
+}
+
 export function EnquiryForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const today = useMemo(getTodayLocal, []);
 
   const update = (key: keyof FormState, value: string) => {
     setForm((current) => ({ ...current, [key]: value }));
@@ -49,6 +57,11 @@ export function EnquiryForm() {
 
     if (!/^\S+@\S+\.\S+$/.test(form.email)) {
       setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (form.date && form.date < today) {
+      setError("Please choose today or a future date.");
       return;
     }
 
@@ -114,7 +127,7 @@ export function EnquiryForm() {
         <label className="text-sm text-white/60">Email *<input required autoComplete="email" type="email" value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
         <label className="text-sm text-white/60">Phone *<input required autoComplete="tel" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
         <label className="text-sm text-white/60">Service required *<select required value={form.service} onChange={(e) => update("service", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-[#111] px-4 py-3 text-white outline-none focus:border-amber-400/60"><option value="">Select a service</option>{business.services.map((service) => <option key={service}>{service}</option>)}</select></label>
-        <label className="text-sm text-white/60">Preferred date<input type="date" value={form.date} onChange={(e) => update("date", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none focus:border-amber-400/60" /></label>
+        <label className="text-sm text-white/60">Preferred date<input min={today} type="date" value={form.date} onChange={(e) => update("date", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none focus:border-amber-400/60" /></label>
         <label className="text-sm text-white/60">Preferred time<input type="time" value={form.time} onChange={(e) => update("time", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none focus:border-amber-400/60" /></label>
       </div>
 
