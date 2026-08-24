@@ -53,7 +53,22 @@ export function EnquiryForm() {
     }
 
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const subject = `${form.type}: ${form.service} — ${form.name}`;
+    const body = [
+      `Name: ${form.name}`,
+      `Email: ${form.email}`,
+      `Phone: ${form.phone}`,
+      `Service: ${form.service}`,
+      `Preferred date: ${form.date || "Not specified"}`,
+      `Preferred time: ${form.time || "Not specified"}`,
+      `Address: ${form.address || "Not specified"}`,
+      "",
+      "Message:",
+      form.message,
+    ].join("\n");
+
+    window.location.href = `mailto:${business.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setLoading(false);
     setSubmitted(true);
   };
@@ -61,18 +76,15 @@ export function EnquiryForm() {
   if (submitted) {
     return (
       <div className="rounded-[2rem] border border-amber-400/20 bg-amber-400/[0.06] p-8 text-left sm:p-12">
-        <p className="text-xs uppercase tracking-[0.35em] text-amber-400">Request prepared</p>
+        <p className="text-xs uppercase tracking-[0.35em] text-amber-400">Enquiry ready</p>
         <h3 className="mt-5 text-3xl font-semibold tracking-tight sm:text-4xl">Thanks, {form.name.split(" ")[0]}.</h3>
         <p className="mt-5 max-w-xl leading-7 text-white/45">
-          Your {form.type.toLowerCase()} details have been prepared. No message has been sent yet because no email, CRM or booking provider is connected.
+          Your email app should now have a pre-filled enquiry ready to send to {business.name}. If it did not open, email {business.email} directly.
         </p>
-        <button
-          type="button"
-          onClick={() => { setSubmitted(false); setForm(initialState); }}
-          className="mt-8 rounded-full border border-white/10 px-6 py-3 text-sm font-medium transition hover:bg-white/[0.05]"
-        >
-          Start another request
-        </button>
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a href={`mailto:${business.email}`} className="rounded-full bg-amber-400 px-6 py-3 text-center text-sm font-semibold text-black transition hover:bg-amber-300">Email us</a>
+          <button type="button" onClick={() => { setSubmitted(false); setForm(initialState); }} className="rounded-full border border-white/10 px-6 py-3 text-sm font-medium transition hover:bg-white/[0.05]">Start another request</button>
+        </div>
       </div>
     );
   }
@@ -80,7 +92,7 @@ export function EnquiryForm() {
   return (
     <form id="enquiry-form" onSubmit={submit} className="rounded-[2rem] border border-white/10 bg-[#090909] p-6 text-left shadow-2xl sm:p-10">
       <div className="mb-8">
-        <p className="text-xs uppercase tracking-[0.35em] text-amber-400">Request a Quote</p>
+        <p className="text-xs uppercase tracking-[0.35em] text-amber-400">Start a conversation</p>
         <h3 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Tell us what you need.</h3>
         <p className="mt-3 text-sm leading-6 text-white/35">Choose a request type and give us enough detail to understand the job.</p>
       </div>
@@ -98,9 +110,9 @@ export function EnquiryForm() {
       </fieldset>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <label className="text-sm text-white/60">Name *<input required value={form.name} onChange={(e) => update("name", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
-        <label className="text-sm text-white/60">Email *<input required type="email" value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
-        <label className="text-sm text-white/60">Phone *<input required type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
+        <label className="text-sm text-white/60">Name *<input required autoComplete="name" value={form.name} onChange={(e) => update("name", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
+        <label className="text-sm text-white/60">Email *<input required autoComplete="email" type="email" value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
+        <label className="text-sm text-white/60">Phone *<input required autoComplete="tel" type="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none transition focus:border-amber-400/60" /></label>
         <label className="text-sm text-white/60">Service required *<select required value={form.service} onChange={(e) => update("service", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-[#111] px-4 py-3 text-white outline-none focus:border-amber-400/60"><option value="">Select a service</option>{business.services.map((service) => <option key={service}>{service}</option>)}</select></label>
         <label className="text-sm text-white/60">Preferred date<input type="date" value={form.date} onChange={(e) => update("date", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none focus:border-amber-400/60" /></label>
         <label className="text-sm text-white/60">Preferred time<input type="time" value={form.time} onChange={(e) => update("time", e.target.value)} className="mt-2 w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-white outline-none focus:border-amber-400/60" /></label>
@@ -112,10 +124,10 @@ export function EnquiryForm() {
       {error && <p role="alert" className="mt-5 rounded-xl border border-red-400/20 bg-red-400/[0.06] px-4 py-3 text-sm text-red-200">{error}</p>}
 
       <button disabled={loading} type="submit" className="mt-7 w-full rounded-full bg-amber-400 px-7 py-4 font-semibold text-black transition hover:bg-amber-300 disabled:cursor-wait disabled:opacity-60">
-        {loading ? "Preparing request…" : "Prepare enquiry"}
+        {loading ? "Preparing email…" : "Send enquiry"}
       </button>
 
-      <p className="mt-4 text-center text-xs leading-5 text-white/25">Your details stay in this form until a real email, CRM or booking provider is connected.</p>
+      <p className="mt-4 text-center text-xs leading-5 text-white/25">Your email app will open with the enquiry pre-filled. No form provider is required.</p>
     </form>
   );
 }
