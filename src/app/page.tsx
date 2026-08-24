@@ -72,12 +72,12 @@ export default function Home() {
 
       <section id="work" className="px-6 py-28 lg:px-10">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Our work</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Good work<br /><span className="text-white/25">speaks.</span></h2></div><p className="hidden max-w-xs text-sm leading-6 text-white/30 sm:block">A gallery ready for genuine Peter & Son project photography.</p></div>
+          <div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Visual direction</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Good work<br /><span className="text-white/25">speaks.</span></h2></div><p className="hidden max-w-xs text-sm leading-6 text-white/30 sm:block">A premium visual direction ready for genuine Peter & Son project photography.</p></div>
           <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr]">
-            <div className="min-h-[430px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(5,5,5,0.7)),url(${media.gallery[0].src})` }}><div className="flex h-full items-end p-8"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/65 backdrop-blur">Project gallery · Demo imagery</span></div></div>
+            <div className="min-h-[430px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(5,5,5,0.7)),url(${media.gallery[0].src})` }}><div className="flex h-full items-end p-8"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/65 backdrop-blur">Visual reference</span></div></div>
             <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-1">{media.gallery.slice(1).map((image) => <div key={image.src} className="min-h-[205px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 30%,rgba(5,5,5,0.5)),url(${image.src})` }} />)}</div>
           </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.25em] text-white/20">Demo photography only · replace with genuine project photography before launch</p>
+          <p className="mt-5 text-xs uppercase tracking-[0.25em] text-white/20">Visual references · replace with genuine project photography before launch</p>
         </div>
       </section>
 
