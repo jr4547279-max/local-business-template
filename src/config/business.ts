@@ -11,25 +11,25 @@ export type BusinessConfig = {
 };
 
 /**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
+ * Prospect demo configuration for Peter & Son Property Maintenance.
+ * This lives on a separate client branch; the master template is untouched.
  */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
-  phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
+  name: "Peter & Son Property Maintenance",
+  email: "Peterandson100@gmail.com",
+  phone: "07380 603426",
+  tagline: "Eastbourne · Family-run · Reliable",
+  location: "Eastbourne & East Sussex",
   description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
+    "A friendly father-and-son property maintenance team providing practical, reliable work across Eastbourne and East Sussex.",
   services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
+    "Guttering & fascia",
+    "Roof cleaning & repairs",
+    "Fencing & decking",
+    "Pressure washing",
+    "Patios & driveways",
+    "General property maintenance",
   ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
+  enquiryTypes: ["Free quote", "Booking", "General enquiry"],
   bookingUrl: "",
 };
