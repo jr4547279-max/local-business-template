@@ -1,95 +1,71 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { business } from "../config/business";
-import { media } from "../config/media";
-import { EnquiryForm } from "./_components/enquiry-form";
 
-const serviceCards = [
-  ["01", "Exceptional service", "Professional, reliable work delivered with care and attention to every detail."],
-  ["02", "Personal approach", "A genuinely local service built around understanding what each customer needs."],
-  ["03", "Beautiful results", "Quality you can see, experience and recommend. Nothing rushed. Nothing ordinary."],
+const pubImages = [
+  "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1800&q=85",
+  "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1571501679680-de32f1e47a17?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1400&q=85",
 ];
 
-export default function Home() {
-  const [position, setPosition] = useState({ x: 50, y: 45 });
+const events = [
+  { type: "QUIZ", title: "Themed quiz night", date: "2026-09-04", time: "7:30pm", description: "A proper pub quiz with complimentary hot buffet.", recurring: "Regular — check the latest pub update for confirmation." },
+  { type: "MUSIC", title: "Live music & garden session", date: "2026-09-12", time: "8:00pm", description: "Live music in the enclosed rear garden when scheduled.", recurring: "Occasional — dates announced by the pub." },
+  { type: "FESTIVAL", title: "Beer festival", date: "2026-10-03", time: "12:00pm", description: "A celebration of changing beers and good company.", recurring: "Regular seasonal event." },
+];
 
-  useEffect(() => {
-    const move = (x: number, y: number) => setPosition({ x: (x / window.innerWidth) * 100, y: (y / window.innerHeight) * 100 });
-    const mouse = (e: MouseEvent) => move(e.clientX, e.clientY);
-    const touch = (e: TouchEvent) => e.touches[0] && move(e.touches[0].clientX, e.touches[0].clientY);
-    window.addEventListener("mousemove", mouse);
-    window.addEventListener("touchmove", touch, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", mouse);
-      window.removeEventListener("touchmove", touch);
-    };
-  }, []);
+const dateLabel = (date: string) => new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short" }).format(new Date(`${date}T12:00:00`));
+
+export default function Home() {
+  const [filter, setFilter] = useState("ALL");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const visibleEvents = useMemo(() => filter === "ALL" ? events : events.filter((event) => event.type === filter), [filter]);
+
+  const askCrown = () => {
+    const q = question.toLowerCase();
+    if (!q.trim()) return setAnswer("Ask me something like “What’s on Friday?” or “When’s the next quiz?”");
+    if (q.includes("quiz")) {
+      const next = events.find((event) => event.type === "QUIZ");
+      return setAnswer(`The next listed quiz is ${dateLabel(next!.date)} at ${next!.time}. It is a regular event, so check with the pub before travelling.`);
+    }
+    if (q.includes("music") || q.includes("band")) {
+      const next = events.find((event) => event.type === "MUSIC");
+      return setAnswer(`The next listed live-music session is ${dateLabel(next!.date)} from ${next!.time}. Dates are occasional, so check the latest pub update.`);
+    }
+    if (q.includes("festival") || q.includes("beer")) {
+      const next = events.find((event) => event.type === "FESTIVAL");
+      return setAnswer(`The next listed beer festival is ${dateLabel(next!.date)}. The Crown also has changing real ales throughout the year.`);
+    }
+    if (q.includes("friday") || q.includes("weekend") || q.includes("saturday") || q.includes("sunday")) {
+      return setAnswer("The calendar above is the source of truth for currently listed events. For anything not shown, call the pub on 01323 724654.");
+    }
+    return setAnswer("I can help find quizzes, live music and beer festivals from the events listed on this page. Try asking “What’s the next quiz?”");
+  };
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-amber-400 selection:text-black">
-      <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/[0.07] bg-[#050505]/75 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <a href="#" className="text-xl font-semibold tracking-[-0.04em]">{business.name}</a>
-          <div className="hidden items-center gap-9 text-sm text-white/45 md:flex">
-            <a href="#services" className="transition hover:text-white">Services</a>
-            <a href="#work" className="transition hover:text-white">Our work</a>
-            <a href="#about" className="transition hover:text-white">About</a>
-            <a href="#enquiry-form" className="transition hover:text-white">Enquire</a>
-          </div>
-          <a href="#enquiry-form" className="rounded-full border border-amber-400/30 bg-amber-400/10 px-5 py-2.5 text-sm font-medium text-amber-300 transition hover:bg-amber-400 hover:text-black">Get Started</a>
+    <main className="min-h-screen overflow-hidden bg-[#17120e] text-[#fff8eb] pb-16 selection:bg-[#e6ad58] selection:text-[#17120e]">
+      <nav className="sticky top-0 z-50 border-b border-white/10 bg-[#17120e]/90 backdrop-blur-xl"><div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-10"><a href="#top" className="font-serif text-2xl font-bold tracking-[-.05em]">THE <span className="text-[#e6ad58]">CROWN</span></a><div className="hidden gap-8 text-sm text-white/55 md:flex"><a href="#story">The pub</a><a href="#whats-on">What's on</a><a href="#garden">Garden</a><a href="#visit">Visit</a></div><a href="tel:+441323724654" className="rounded-full bg-[#e6ad58] px-5 py-2.5 text-sm font-semibold text-[#17120e]">Call the pub</a></div></nav>
+
+      <section id="top" className="relative min-h-[88vh] overflow-hidden px-5 py-24 lg:px-10 lg:py-28"><div className="absolute inset-0 bg-cover bg-center opacity-55" style={{backgroundImage:`url(${pubImages[0]})`}}/><div className="absolute inset-0 bg-[linear-gradient(90deg,#17120e_0%,rgba(23,18,14,.82)_42%,rgba(23,18,14,.28)_100%)]"/><div className="absolute inset-0 bg-[linear-gradient(0deg,#17120e_0%,transparent_45%,rgba(0,0,0,.25)_100%)]"/><div className="relative mx-auto flex min-h-[68vh] max-w-7xl items-end"><div className="max-w-5xl"><p className="mb-7 text-xs uppercase tracking-[.4em] text-[#e6ad58]">Old Town · Eastbourne · Community Pub</p><h1 className="font-serif text-[20vw] font-bold leading-[.76] tracking-[-.075em] sm:text-8xl lg:text-[9.5rem]">A proper<br/><em className="text-[#e6ad58]">local.</em></h1><p className="mt-9 max-w-2xl text-lg leading-8 text-white/65 sm:text-xl">Real ale, log fires, a big enclosed garden and the kind of pub atmosphere that makes you want to stay for another one.</p><div className="mt-10 flex flex-col gap-3 sm:flex-row"><a href="#whats-on" className="rounded-full bg-[#e6ad58] px-8 py-4 text-center font-semibold text-[#17120e]">See what's on</a><a href="tel:+441323724654" className="rounded-full border border-white/20 bg-black/20 px-8 py-4 text-center font-semibold text-white/80 backdrop-blur">01323 724654</a></div></div></div></section>
+
+      <section id="story" className="border-y border-white/10 px-5 py-24 lg:px-10"><div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.85fr_1.15fr] lg:items-center"><div><p className="text-xs uppercase tracking-[.35em] text-[#e6ad58]">Why The Crown</p><h2 className="mt-5 font-serif text-5xl tracking-[-.05em] sm:text-7xl">Community<br/><span className="text-white/25">over hype.</span></h2><p className="mt-7 text-lg leading-8 text-white/45">A traditional Old Town pub with separate public and saloon bars, log fires, a pool room and a large enclosed rear garden.</p><div className="mt-8 grid grid-cols-2 gap-3 text-sm text-white/60"><div className="rounded-2xl border border-white/10 p-5">🏆<br/><span className="mt-3 block">2025 Community Pub of the Year</span></div><div className="rounded-2xl border border-white/10 p-5">🍺<br/><span className="mt-3 block">Good Beer Guide regular</span></div></div></div><div className="min-h-[520px] rounded-[2rem] bg-cover bg-center" style={{backgroundImage:`linear-gradient(180deg,transparent,rgba(23,18,14,.55)),url(${pubImages[1]})`}}><div className="flex h-full items-end p-7"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[.22em] text-white/65 backdrop-blur">Demo photography · replace before launch</span></div></div></div></section>
+
+      <section id="whats-on" className="bg-[#201812] px-5 py-24 lg:px-10"><div className="mx-auto max-w-7xl"><div className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[.35em] text-[#e6ad58]">What's on</p><h2 className="mt-4 font-serif text-5xl tracking-[-.05em] sm:text-7xl">Know what's<br/><span className="text-white/25">happening.</span></h2></div><a href="tel:+441323724654" className="text-sm text-[#e6ad58]">Ask the pub →</a></div>
+        <div className="rounded-[2rem] border border-white/10 bg-[#17120e] p-6 sm:p-8"><div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between"><div><span className="text-xs uppercase tracking-[.3em] text-[#e6ad58]">AI What's On</span><h3 className="mt-3 font-serif text-4xl">Ask the Crown.</h3><p className="mt-3 max-w-xl text-sm leading-6 text-white/40">Ask a question and I'll answer from the events listed on this page. The calendar is the source of truth — no invented events.</p></div><div className="flex w-full max-w-xl gap-2"><input value={question} onChange={e=>setQuestion(e.target.value)} onKeyDown={e=>e.key==='Enter'&&askCrown()} placeholder="What's on this weekend?" className="min-w-0 flex-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white placeholder:text-white/25 outline-none focus:border-[#e6ad58]/50"/><button onClick={askCrown} className="rounded-xl bg-[#e6ad58] px-5 py-3 text-sm font-semibold text-[#17120e]">Ask</button></div></div>{answer&&<div className="mt-5 rounded-xl border border-[#e6ad58]/20 bg-[#e6ad58]/5 p-4 text-sm leading-6 text-white/75">{answer}</div>}
+          <div className="mt-8 grid gap-4 border-t border-white/10 pt-8 sm:grid-cols-3">{events.map(event=><button key={event.type} onClick={()=>setFilter(event.type)} className="rounded-2xl border border-white/10 bg-white/[.025] p-5 text-left hover:border-[#e6ad58]/30"><p className="text-xs uppercase tracking-[.25em] text-[#e6ad58]">{dateLabel(event.date)} · {event.time}</p><h4 className="mt-5 font-serif text-2xl">{event.title}</h4><p className="mt-2 text-sm leading-6 text-white/40">{event.description}</p></button>)}</div>
+          <div className="mt-6 flex flex-wrap gap-2">{["ALL","QUIZ","MUSIC","FESTIVAL"].map(item=><button key={item} onClick={()=>setFilter(item)} className={`rounded-full border px-4 py-2 text-xs font-semibold tracking-[.18em] transition ${filter===item?"border-[#e6ad58] bg-[#e6ad58] text-[#17120e]":"border-white/10 text-white/45 hover:border-white/25"}`}>{item}</button>)}</div>
+          <div className="mt-5 grid gap-3">{visibleEvents.map(event=><div key={event.type} className="flex flex-col justify-between gap-3 rounded-xl border border-white/10 px-5 py-4 sm:flex-row sm:items-center"><div><p className="text-xs uppercase tracking-[.2em] text-[#e6ad58]">{dateLabel(event.date)} · {event.time}</p><p className="mt-1 font-medium">{event.title}</p></div><p className="text-xs text-white/35">{event.recurring}</p></div>)}</div><p className="mt-6 text-xs leading-5 text-white/25">Demo event dates are placeholders for the concept and must be replaced with confirmed dates before launch.</p>
         </div>
-      </nav>
+      </div></section>
 
-      <section className="relative flex min-h-screen items-end px-6 pb-16 pt-28 lg:px-10 lg:pb-20" style={{ background: `radial-gradient(circle 420px at ${position.x}% ${position.y}%, rgba(245,158,11,0.14), transparent 70%)` }}>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.15)_0%,rgba(5,5,5,0.4)_45%,#050505_100%)]" />
-        <div className="absolute inset-0 opacity-55" style={{ backgroundImage: `url(${media.hero.src})`, backgroundPosition: "center", backgroundSize: "cover" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,0.92)_0%,rgba(5,5,5,0.55)_45%,rgba(5,5,5,0.25)_100%)]" />
-        <div className="relative mx-auto w-full max-w-7xl">
-          <div className="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/55"><span className="h-px w-10 bg-amber-400/70" />{business.tagline}</div>
-          <h1 className="max-w-6xl text-[15vw] font-semibold leading-[0.82] tracking-[-0.075em] sm:text-8xl lg:text-[9rem]">Great<br /><span className="relative">service<span className="absolute -bottom-2 left-1 h-px w-24 bg-amber-400/80 sm:w-40" /></span><span className="text-amber-400">.</span></h1>
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_340px] lg:items-end">
-            <p className="max-w-xl text-lg leading-8 text-white/65 sm:text-xl">Professional service from a local business that genuinely cares about the details, the experience and the final result.</p>
-            <div><p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/40">The standard</p><p className="text-3xl font-medium tracking-tight">Beautiful <span className="text-amber-400">results.</span></p></div>
-          </div>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-            <a href="#enquiry-form" className="group relative overflow-hidden rounded-full bg-amber-400 px-8 py-4 text-center font-semibold text-black transition duration-300 hover:-translate-y-1"><span className="relative z-10">Book / Enquire</span><span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 group-hover:translate-x-0" /></a>
-            <a href="#work" className="rounded-full border border-white/20 bg-black/20 px-8 py-4 text-center font-medium text-white/80 backdrop-blur transition hover:border-white/35 hover:bg-white/[0.06] hover:text-white">See the work ↓</a>
-          </div>
-        </div>
-      </section>
+      <section id="garden" className="px-5 py-24 lg:px-10"><div className="mx-auto max-w-7xl"><div className="grid gap-5 md:grid-cols-[1.1fr_.9fr]"><div className="min-h-[560px] rounded-[2rem] bg-cover bg-center" style={{backgroundImage:`linear-gradient(180deg,transparent 30%,rgba(23,18,14,.72)),url(${pubImages[2]})`}}><div className="flex h-full items-end p-8"><div><p className="text-xs uppercase tracking-[.3em] text-[#e6ad58]">The garden</p><h2 className="mt-3 font-serif text-5xl">Summer starts here.</h2><p className="mt-4 max-w-md text-white/55">An enclosed rear garden with children's play equipment, summer BBQs and occasional music concerts.</p></div></div></div><div className="grid gap-5"><div className="rounded-[2rem] border border-white/10 bg-[#201812] p-8"><p className="text-xs uppercase tracking-[.3em] text-[#e6ad58]">Sunday ritual</p><h3 className="mt-4 font-serif text-4xl">Ale prices down.</h3><p className="mt-4 text-sm leading-7 text-white/45">All ale prices are reduced between 12 noon and 3pm on Sundays.</p></div><div className="min-h-[260px] rounded-[2rem] bg-cover bg-center" style={{backgroundImage:`url(${pubImages[3]})`}} /></div></div></div></section>
 
-      <section id="services" className="border-t border-white/[0.07] px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">What we do</p><h2 className="mt-5 max-w-2xl text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Less ordinary.<br /><span className="text-white/25">More memorable.</span></h2></div><p className="max-w-xs text-sm leading-6 text-white/35">A carefully considered service from first contact to final result.</p></div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {serviceCards.map(([number, title, text], index) => <article key={number} className="group overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.025] transition duration-500 hover:-translate-y-1 hover:border-amber-400/20"><div className="h-56 overflow-hidden" style={{ backgroundImage: `linear-gradient(180deg,rgba(5,5,5,0.05),rgba(5,5,5,0.55)),url(${media.services[index].src})`, backgroundPosition: "center", backgroundSize: "cover" }} /><div className="min-h-[250px] p-8"><div className="flex items-start justify-between"><span className="text-sm text-amber-400/70">{number}</span><span className="text-xl text-white/15 transition duration-500 group-hover:text-amber-400">↗</span></div><div className="mt-16"><h3 className="text-2xl font-medium tracking-tight transition group-hover:text-amber-400">{title}</h3><p className="mt-4 text-sm leading-7 text-white/40">{text}</p></div></div></article>)}
-          </div>
-        </div>
-      </section>
+      <section id="visit" className="bg-[#e6ad58] px-5 py-20 text-[#17120e] lg:px-10"><div className="mx-auto grid max-w-7xl gap-10 md:grid-cols-[1fr_auto] md:items-center"><div><p className="text-xs uppercase tracking-[.35em] text-black/55">Come as you are</p><h2 className="mt-3 font-serif text-6xl tracking-[-.06em] sm:text-8xl">No booking.<br/>Just turn up.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-black/65">Current local guidance says The Crown does not take advance bookings — check for a free table when you arrive.</p></div><div className="rounded-[1.75rem] bg-black/90 p-8 text-white"><p className="text-xs uppercase tracking-[.25em] text-[#e6ad58]">Visit us</p><p className="mt-5 text-xl font-semibold">22 Crown Street</p><p className="text-white/55">Old Town, Eastbourne<br/>BN21 1PB</p><a href="tel:+441323724654" className="mt-7 block rounded-full bg-[#e6ad58] px-7 py-3 text-center font-semibold text-black">Call 01323 724654</a></div></div></section>
 
-      <section id="work" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Our work</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Made to be<br /><span className="text-white/25">noticed.</span></h2></div><p className="hidden max-w-xs text-sm leading-6 text-white/30 sm:block">A visual gallery section ready for genuine client photography.</p></div>
-          <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr]">
-            <div className="min-h-[430px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(5,5,5,0.6)),url(${media.gallery[0].src})` }}>
-              <div className="flex h-full items-end p-8"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/65 backdrop-blur">Featured project · Demo imagery</span></div>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-1">
-              {media.gallery.slice(1).map((image) => <div key={image.src} className="min-h-[205px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 30%,rgba(5,5,5,0.5)),url(${image.src})` }} />)}
-            </div>
-          </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.25em] text-white/20">Demo photography only · replace with genuine client work before launch</p>
-        </div>
-      </section>
-
-      <section id="about" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl"><div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-8 sm:p-14 lg:p-20"><div className="pointer-events-none absolute h-96 w-96 rounded-full bg-amber-400/[0.07] blur-3xl" style={{ left: `${position.x - 20}%`, top: `${position.y - 40}%` }} /><div className="relative max-w-4xl"><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Why choose us</p><h2 className="mt-6 text-5xl font-semibold tracking-[-0.055em] sm:text-7xl">Premium isn't<br /><span className="text-white/25">a price tag.</span></h2><p className="mt-10 max-w-2xl text-lg leading-8 text-white/40">It's the feeling that someone cared. Every interaction, every detail and every finished result should feel considered.</p><div className="mt-14 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-3"><div><p className="text-4xl font-semibold">01</p><p className="mt-2 text-sm text-white/30">Personal</p></div><div><p className="text-4xl font-semibold">02</p><p className="mt-2 text-sm text-white/30">Professional</p></div><div><p className="text-4xl font-semibold">03</p><p className="mt-2 text-sm text-white/30">Precise</p></div></div></div></div></div>
-      </section>
-
-      <section id="contact" className="relative px-6 py-36 lg:px-10"><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08),transparent_45%)]" /><div className="relative mx-auto max-w-5xl"><div className="mb-16 text-center"><p className="text-xs uppercase tracking-[0.4em] text-amber-400">Start a conversation</p><h2 className="mt-7 text-6xl font-semibold tracking-[-0.065em] sm:text-8xl">Let's make<br /><span className="text-amber-400">something great.</span></h2><p className="mx-auto mt-8 max-w-lg text-lg leading-8 text-white/35">Questions, quotes or ready to get started? We'd love to hear from you.</p></div><EnquiryForm /><p className="mt-6 text-center text-sm text-white/25">Prefer email? <a className="text-amber-400/80 hover:text-amber-300" href={`mailto:${business.email}`}>{business.email}</a></p></div></section>
-
-      <footer className="border-t border-white/[0.07] px-6 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[0.2em] text-white/20 sm:flex-row"><p>© 2026 {business.name}</p><p>Local · Professional · Trusted</p></div></footer>
+      <footer className="border-t border-white/10 px-5 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[.2em] text-white/25 sm:flex-row"><p>© 2026 {business.name} · {business.location}</p><p>Demo concept · replace imagery before launch</p></div></footer><div className="fixed inset-x-0 bottom-0 z-[60] border-t border-white/10 bg-[#17120e]/95 px-3 py-2 pb-[calc(.5rem+env(safe-area-inset-bottom))] shadow-[0_-10px_30px_rgba(0,0,0,.25)] backdrop-blur-xl md:hidden"><div className="mx-auto grid max-w-lg grid-cols-3 gap-2 text-[11px] font-medium uppercase tracking-[.12em]"><a href="#whats-on" className="rounded-xl px-2 py-3 text-center text-white/65">📅<span className="mt-1 block">What's on</span></a><a href="#garden" className="rounded-xl bg-[#e6ad58] px-2 py-3 text-center font-semibold text-[#17120e]">🌳<span className="mt-1 block">Garden</span></a><a href="tel:+441323724654" className="rounded-xl px-2 py-3 text-center text-white/65">📞<span className="mt-1 block">Call</span></a></div></div>
     </main>
   );
 }
