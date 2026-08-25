@@ -12,25 +12,25 @@ export type BusinessConfig = {
 
 /**
  * Client configuration generated from public business research.
- * Source: colbranwingrove.co.uk and public business listings, researched August 2026.
+ * Source: carpetcleanereastbourne.co.uk and public business listings, researched August 2026.
  */
 export const business: BusinessConfig = {
-  name: "Colbran & Wingrove",
-  email: "office@colbranwingrove.co.uk",
-  phone: "01323 729025",
-  tagline: "Family-run · Independent · Since 1967",
+  name: "Select Cleaning Services",
+  email: "info@carpetcleanereastbourne.co.uk",
+  phone: "01323 729661 / 459409",
+  tagline: "Family-run · Eastbourne · East Sussex",
   location: "Eastbourne & East Sussex",
   description:
-    "Independent residential and commercial building contractor based in Eastbourne, managing projects from early ideas and surveys through construction and final finish.",
+    "Family-run cleaning specialists covering carpets, offices, driveways, outdoor surfaces and vehicle valeting across Eastbourne and East Sussex.",
   services: [
-    "Extensions & alterations",
-    "Loft conversions",
-    "Refurbishment & repairs",
-    "Commercial building & maintenance",
-    "New build projects",
-    "Decorating & finishing",
-    "Other / not sure",
+    "Carpet & upholstery cleaning",
+    "Office & commercial cleaning",
+    "Driveway & patio cleaning",
+    "Fascia & gutter cleaning",
+    "Conservatory & outdoor cleaning",
+    "Vehicle valeting",
+    "End-of-tenancy & contract cleaning",
   ],
-  enquiryTypes: ["Request a quote", "Discuss a project", "General enquiry"],
+  enquiryTypes: ["Free estimate", "Book a cleaning service", "Commercial enquiry", "General enquiry"],
   bookingUrl: "",
 };
