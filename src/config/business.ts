@@ -10,26 +10,15 @@ export type BusinessConfig = {
   bookingUrl: string;
 };
 
-/**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
- */
+/** Client research: Bourne to Kayak, Wish Tower Beach, Eastbourne. */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
-  phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
-  description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
-  services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
-  ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
+  name: "Bourne to Kayak",
+  email: "bournetokayak@outlook.com",
+  phone: "07359 668350",
+  tagline: "Eastbourne · Kayaks · SUP Boards",
+  location: "Wish Tower Beach, King Edwards Parade, Eastbourne, BN21 4BY",
+  description: "Sit-on kayak and stand-up paddleboard hire from Wish Tower Beach on the Eastbourne coast.",
+  services: ["Sit-on kayak hire", "Stand-up paddleboard hire", "Family / group hire", "Booking enquiry", "Not sure — ask us"],
+  enquiryTypes: ["Book a session", "Check availability", "General enquiry"],
   bookingUrl: "",
 };
