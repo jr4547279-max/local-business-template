@@ -11,25 +11,26 @@ export type BusinessConfig = {
 };
 
 /**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
+ * Client configuration generated from public business research.
+ * Source: colbranwingrove.co.uk and public business listings, researched August 2026.
  */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
-  phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
+  name: "Colbran & Wingrove",
+  email: "office@colbranwingrove.co.uk",
+  phone: "01323 729025",
+  tagline: "Family-run · Independent · Since 1967",
+  location: "Eastbourne & East Sussex",
   description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
+    "Independent residential and commercial building contractor based in Eastbourne, managing projects from early ideas and surveys through construction and final finish.",
   services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
+    "Extensions & alterations",
+    "Loft conversions",
+    "Refurbishment & repairs",
+    "Commercial building & maintenance",
+    "New build projects",
+    "Decorating & finishing",
     "Other / not sure",
   ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
+  enquiryTypes: ["Request a quote", "Discuss a project", "General enquiry"],
   bookingUrl: "",
 };
