@@ -24,3 +24,16 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Factory palette: replace the previous gold accent with a strict white/black system. */
+[class~="text-[#d5b36a]"] { color: #ffffff !important; }
+[class~="bg-[#d5b36a]"] { background-color: #ffffff !important; color: #000000 !important; }
+[class~="bg-[#d5b36a]/10"] { background-color: rgb(255 255 255 / 0.10) !important; }
+[class~="bg-[#d5b36a]/[0.06]"] { background-color: rgb(255 255 255 / 0.06) !important; }
+[class~="border-[#d5b36a]"] { border-color: #ffffff !important; }
+[class~="border-[#d5b36a]/30"] { border-color: rgb(255 255 255 / 0.30) !important; }
+[class~="border-[#d5b36a]/20"] { border-color: rgb(255 255 255 / 0.20) !important; }
+[class~="focus:border-[#d5b36a]/60"]:focus { border-color: rgb(255 255 255 / 0.60) !important; }
+[class~="hover:text-[#d5b36a]"]:hover { color: #ffffff !important; }
+[class~="hover:bg-[#d5b36a]"]:hover { background-color: #ffffff !important; }
+[class~="hover:bg-[#d5b36a]/10"]:hover { background-color: rgb(255 255 255 / 0.10) !important; }
