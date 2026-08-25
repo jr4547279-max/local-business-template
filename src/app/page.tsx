@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { business } from "../config/business";
 import { media } from "../config/media";
+import { EnquiryForm } from "./_components/enquiry-form";
 
 const projectTypes = [
   { id: "home", label: "Improve my home", note: "Extension, alteration, conversion or refurbishment" },
