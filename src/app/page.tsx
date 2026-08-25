@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { business } from "../config/business";
+import { media } from "../config/media";
 
 const projectTypes = [
   { id: "home", label: "Improve my home", note: "Extension, alteration, conversion or refurbishment" },
