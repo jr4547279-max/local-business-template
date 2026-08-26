@@ -12,7 +12,7 @@ export type BusinessConfig = {
 
 export const business: BusinessConfig = {
   name: "Cherry Wood Adventures",
-  email: "sarah@cherrywoodadventures.co.uk",
+  email: "",
   phone: "07887 556336",
   tagline: "Wild learning · Sussex woods · Since 2013",
   location: "Eastbourne · Arlington · East Sussex",
@@ -28,5 +28,5 @@ export const business: BusinessConfig = {
     "Bespoke outdoor activities",
   ],
   enquiryTypes: ["Book a session", "Ask about an event", "Bespoke enquiry"],
-  bookingUrl: "",
+  bookingUrl: "https://www.cherrywoodadventures.co.uk/events.html",
 };
