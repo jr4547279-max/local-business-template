@@ -10,26 +10,23 @@ export type BusinessConfig = {
   bookingUrl: string;
 };
 
-/**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
- */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
-  phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
+  name: "Cherry Wood Adventures",
+  email: "sarah@cherrywoodadventures.co.uk",
+  phone: "07887 556336",
+  tagline: "Wild learning · Sussex woods · Since 2013",
+  location: "Eastbourne · Arlington · East Sussex",
   description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
+    "Outdoor adventures, woodland learning and nature experiences for children, families and grown-ups across Sussex, led by Sarah Wilesmith with 25 years of outdoor education experience.",
   services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
+    "Acorn Folk · ages 2–4",
+    "Forest Folk · home education",
+    "Nature Adventures · ages 5–7",
+    "Wild Wednesdays · ages 10–12",
+    "Woodland Ways · grown-ups",
+    "Family events & guided walks",
+    "Bespoke outdoor activities",
   ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
+  enquiryTypes: ["Book a session", "Ask about an event", "Bespoke enquiry"],
   bookingUrl: "",
 };
