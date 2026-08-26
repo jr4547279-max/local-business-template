@@ -1,95 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { AdventureFinder } from "./_components/adventure-finder";
 import { business } from "../config/business";
-import { media } from "../config/media";
-import { EnquiryForm } from "./_components/enquiry-form";
 
-const serviceCards = [
-  ["01", "Exceptional service", "Professional, reliable work delivered with care and attention to every detail."],
-  ["02", "Personal approach", "A genuinely local service built around understanding what each customer needs."],
-  ["03", "Beautiful results", "Quality you can see, experience and recommend. Nothing rushed. Nothing ordinary."],
+const heroImage = "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=2200&q=88";
+const cards = [
+  ["01", "Little wild ones", "Acorn Folk is a gentle woodland playgroup for ages 2–4, with stories, nature discovery, making and snack time in the woods."],
+  ["02", "Wild learning", "Home-education and group sessions turn the Sussex landscape into a classroom: wildlife, fossils, foraging, bushcraft and more."],
+  ["03", "Grown-up escape", "Woodland Ways gives adults just under two hours to slow down, learn something new, make something and enjoy tea in the trees."],
 ];
 
 export default function Home() {
-  const [position, setPosition] = useState({ x: 50, y: 45 });
-
-  useEffect(() => {
-    const move = (x: number, y: number) => setPosition({ x: (x / window.innerWidth) * 100, y: (y / window.innerHeight) * 100 });
-    const mouse = (e: MouseEvent) => move(e.clientX, e.clientY);
-    const touch = (e: TouchEvent) => e.touches[0] && move(e.touches[0].clientX, e.touches[0].clientY);
-    window.addEventListener("mousemove", mouse);
-    window.addEventListener("touchmove", touch, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", mouse);
-      window.removeEventListener("touchmove", touch);
-    };
-  }, []);
-
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-amber-400 selection:text-black">
-      <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/[0.07] bg-[#050505]/75 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <a href="#" className="text-xl font-semibold tracking-[-0.04em]">{business.name}</a>
-          <div className="hidden items-center gap-9 text-sm text-white/45 md:flex">
-            <a href="#services" className="transition hover:text-white">Services</a>
-            <a href="#work" className="transition hover:text-white">Our work</a>
-            <a href="#about" className="transition hover:text-white">About</a>
-            <a href="#enquiry-form" className="transition hover:text-white">Enquire</a>
-          </div>
-          <a href="#enquiry-form" className="rounded-full border border-amber-400/30 bg-amber-400/10 px-5 py-2.5 text-sm font-medium text-amber-300 transition hover:bg-amber-400 hover:text-black">Get Started</a>
+    <main className="min-h-screen overflow-hidden bg-[#f3efe2] text-[#17271d] selection:bg-[#d8b86a] selection:text-[#17271d]">
+      <nav className="fixed left-0 top-0 z-50 w-full border-b border-[#183324]/10 bg-[#f3efe2]/82 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
+          <a href="#top" className="flex items-center gap-3"><span className="grid h-9 w-9 place-items-center rounded-full bg-[#183324] text-sm text-[#d8b86a]">CW</span><span className="hidden text-sm font-semibold tracking-[-0.02em] sm:block">Cherry Wood Adventures</span></a>
+          <div className="hidden items-center gap-8 text-sm text-[#405247] md:flex"><a href="#adventures" className="hover:text-[#183324]">Adventures</a><a href="#finder" className="hover:text-[#183324]">Find your session</a><a href="#story" className="hover:text-[#183324]">The story</a><a href="#contact" className="hover:text-[#183324]">Contact</a></div>
+          <a href="#finder" className="rounded-full bg-[#183324] px-5 py-2.5 text-sm font-semibold text-[#f5efdf] transition hover:-translate-y-0.5 hover:bg-[#294b39]">Find your adventure</a>
         </div>
       </nav>
 
-      <section className="relative flex min-h-screen items-end px-6 pb-16 pt-28 lg:px-10 lg:pb-20" style={{ background: `radial-gradient(circle 420px at ${position.x}% ${position.y}%, rgba(245,158,11,0.14), transparent 70%)` }}>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.15)_0%,rgba(5,5,5,0.4)_45%,#050505_100%)]" />
-        <div className="absolute inset-0 opacity-55" style={{ backgroundImage: `url(${media.hero.src})`, backgroundPosition: "center", backgroundSize: "cover" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,0.92)_0%,rgba(5,5,5,0.55)_45%,rgba(5,5,5,0.25)_100%)]" />
-        <div className="relative mx-auto w-full max-w-7xl">
-          <div className="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/55"><span className="h-px w-10 bg-amber-400/70" />{business.tagline}</div>
-          <h1 className="max-w-6xl text-[15vw] font-semibold leading-[0.82] tracking-[-0.075em] sm:text-8xl lg:text-[9rem]">Great<br /><span className="relative">service<span className="absolute -bottom-2 left-1 h-px w-24 bg-amber-400/80 sm:w-40" /></span><span className="text-amber-400">.</span></h1>
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_340px] lg:items-end">
-            <p className="max-w-xl text-lg leading-8 text-white/65 sm:text-xl">Professional service from a local business that genuinely cares about the details, the experience and the final result.</p>
-            <div><p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/40">The standard</p><p className="text-3xl font-medium tracking-tight">Beautiful <span className="text-amber-400">results.</span></p></div>
-          </div>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-            <a href="#enquiry-form" className="group relative overflow-hidden rounded-full bg-amber-400 px-8 py-4 text-center font-semibold text-black transition duration-300 hover:-translate-y-1"><span className="relative z-10">Book / Enquire</span><span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 group-hover:translate-x-0" /></a>
-            <a href="#work" className="rounded-full border border-white/20 bg-black/20 px-8 py-4 text-center font-medium text-white/80 backdrop-blur transition hover:border-white/35 hover:bg-white/[0.06] hover:text-white">See the work ↓</a>
-          </div>
+      <section id="top" className="relative min-h-[92vh] overflow-hidden bg-[#173526] text-[#f7f2e4]">
+        <div className="absolute inset-0 bg-cover bg-center opacity-55" style={{ backgroundImage: `url(${heroImage})` }} />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(16,35,26,0.97)_0%,rgba(16,35,26,0.72)_42%,rgba(16,35,26,0.18)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#173526] to-transparent" />
+        <div className="relative mx-auto flex min-h-[92vh] max-w-7xl flex-col justify-end px-5 pb-14 pt-28 sm:px-8 lg:px-10 lg:pb-20">
+          <div className="max-w-5xl"><div className="mb-7 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.32em] text-[#d8b86a]"><span className="h-px w-10 bg-[#d8b86a]" />{business.tagline}</div><h1 className="max-w-5xl text-[16vw] font-semibold leading-[0.82] tracking-[-0.08em] sm:text-8xl lg:text-[9.5rem]">Go wild.<br /><span className="text-[#d8b86a]">Learn deeply.</span></h1><p className="mt-9 max-w-2xl text-lg leading-8 text-[#e3e6da]/72 sm:text-xl">Outdoor adventures for children, families and grown-ups in the woods, fields and gardens of Sussex — led by Sarah Wilesmith, with 25 years of outdoor education experience.</p><div className="mt-10 flex flex-col gap-3 sm:flex-row"><a href="#finder" className="rounded-full bg-[#d8b86a] px-7 py-4 text-center text-sm font-semibold text-[#173526] transition hover:-translate-y-1 hover:bg-[#ead18b]">Find your session ↓</a><a href="https://www.cherrywoodadventures.co.uk/events.html" target="_blank" rel="noreferrer" className="rounded-full border border-white/20 bg-white/[0.06] px-7 py-4 text-center text-sm font-medium text-white/85 backdrop-blur transition hover:border-white/40">See current events ↗</a></div></div>
+          <div className="mt-16 grid max-w-3xl grid-cols-2 gap-6 border-t border-white/15 pt-6 text-sm sm:grid-cols-4"><div><p className="text-2xl font-semibold text-[#d8b86a]">2–4</p><p className="mt-1 text-white/45">Acorn Folk</p></div><div><p className="text-2xl font-semibold text-[#d8b86a]">5–12</p><p className="mt-1 text-white/45">Wild learning</p></div><div><p className="text-2xl font-semibold text-[#d8b86a]">25 yrs</p><p className="mt-1 text-white/45">Outdoor education</p></div><div><p className="text-2xl font-semibold text-[#d8b86a]">Sussex</p><p className="mt-1 text-white/45">Woods & fields</p></div></div>
         </div>
       </section>
 
-      <section id="services" className="border-t border-white/[0.07] px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">What we do</p><h2 className="mt-5 max-w-2xl text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Less ordinary.<br /><span className="text-white/25">More memorable.</span></h2></div><p className="max-w-xs text-sm leading-6 text-white/35">A carefully considered service from first contact to final result.</p></div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {serviceCards.map(([number, title, text], index) => <article key={number} className="group overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.025] transition duration-500 hover:-translate-y-1 hover:border-amber-400/20"><div className="h-56 overflow-hidden" style={{ backgroundImage: `linear-gradient(180deg,rgba(5,5,5,0.05),rgba(5,5,5,0.55)),url(${media.services[index].src})`, backgroundPosition: "center", backgroundSize: "cover" }} /><div className="min-h-[250px] p-8"><div className="flex items-start justify-between"><span className="text-sm text-amber-400/70">{number}</span><span className="text-xl text-white/15 transition duration-500 group-hover:text-amber-400">↗</span></div><div className="mt-16"><h3 className="text-2xl font-medium tracking-tight transition group-hover:text-amber-400">{title}</h3><p className="mt-4 text-sm leading-7 text-white/40">{text}</p></div></div></article>)}
-          </div>
-        </div>
+      <section id="adventures" className="px-5 py-24 sm:px-8 lg:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c6d2e]">Not just a club</p><h2 className="mt-5 text-5xl font-semibold leading-[0.95] tracking-[-0.055em] sm:text-7xl">A different kind of<br /><span className="text-[#708170]">classroom.</span></h2></div><p className="max-w-xl text-lg leading-8 text-[#536357]">Cherry Wood Adventures uses real Sussex landscapes to make learning physical, imaginative and memorable — from finding fungi to making things on the fire.</p></div><div className="mt-16 grid gap-5 md:grid-cols-3">{cards.map(([number,title,text]) => <article key={number} className="group rounded-[1.75rem] border border-[#183324]/10 bg-white/45 p-7 transition duration-500 hover:-translate-y-1 hover:bg-white/70"><div className="flex items-start justify-between"><span className="text-sm font-semibold text-[#8c6d2e]">{number}</span><span className="text-2xl text-[#183324]/15 transition group-hover:text-[#8c6d2e]">↗</span></div><div className="mt-20"><h3 className="text-2xl font-semibold tracking-[-0.03em]">{title}</h3><p className="mt-4 text-sm leading-7 text-[#637067]">{text}</p></div></article>)}</div></div>
       </section>
 
-      <section id="work" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Our work</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Made to be<br /><span className="text-white/25">noticed.</span></h2></div><p className="hidden max-w-xs text-sm leading-6 text-white/30 sm:block">A visual gallery section ready for genuine client photography.</p></div>
-          <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr]">
-            <div className="min-h-[430px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(5,5,5,0.6)),url(${media.gallery[0].src})` }}>
-              <div className="flex h-full items-end p-8"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/65 backdrop-blur">Featured project · Demo imagery</span></div>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-1">
-              {media.gallery.slice(1).map((image) => <div key={image.src} className="min-h-[205px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 30%,rgba(5,5,5,0.5)),url(${image.src})` }} />)}
-            </div>
-          </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.25em] text-white/20">Demo photography only · replace with genuine client work before launch</p>
-        </div>
-      </section>
+      <section id="finder" className="bg-[#e7e1cf] px-5 py-24 sm:px-8 lg:px-10 lg:py-32"><div className="mx-auto max-w-7xl"><div className="mb-12 max-w-2xl"><p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c6d2e]">A new layer for the website</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.055em] sm:text-6xl">Don’t browse a list.<br /><span className="text-[#708170]">Find your fit.</span></h2><p className="mt-5 text-base leading-7 text-[#536357]">The original site has lots of great information, but families have to know what they are looking for first. This finder turns age and intent into a simple starting point.</p></div><AdventureFinder /></div></section>
 
-      <section id="about" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl"><div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-8 sm:p-14 lg:p-20"><div className="pointer-events-none absolute h-96 w-96 rounded-full bg-amber-400/[0.07] blur-3xl" style={{ left: `${position.x - 20}%`, top: `${position.y - 40}%` }} /><div className="relative max-w-4xl"><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Why choose us</p><h2 className="mt-6 text-5xl font-semibold tracking-[-0.055em] sm:text-7xl">Premium isn't<br /><span className="text-white/25">a price tag.</span></h2><p className="mt-10 max-w-2xl text-lg leading-8 text-white/40">It's the feeling that someone cared. Every interaction, every detail and every finished result should feel considered.</p><div className="mt-14 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-3"><div><p className="text-4xl font-semibold">01</p><p className="mt-2 text-sm text-white/30">Personal</p></div><div><p className="text-4xl font-semibold">02</p><p className="mt-2 text-sm text-white/30">Professional</p></div><div><p className="text-4xl font-semibold">03</p><p className="mt-2 text-sm text-white/30">Precise</p></div></div></div></div></div>
-      </section>
+      <section id="story" className="px-5 py-24 sm:px-8 lg:px-10 lg:py-32"><div className="mx-auto max-w-7xl"><div className="grid gap-12 lg:grid-cols-[1fr_1fr] lg:items-center"><div className="relative min-h-[520px] overflow-hidden rounded-[2rem] bg-[#173526]" style={{ backgroundImage: `linear-gradient(180deg,rgba(23,53,38,0.05),rgba(23,53,38,0.68)),url(${heroImage})`, backgroundPosition: "center", backgroundSize: "cover" }}><div className="absolute bottom-7 left-7 right-7 rounded-2xl border border-white/15 bg-[#173526]/70 p-5 backdrop-blur"><p className="text-xs uppercase tracking-[0.25em] text-[#d8b86a]">The Cherry Wood philosophy</p><p className="mt-2 text-lg leading-7 text-white/85">Understanding nature creates the desire to care for it.</p></div></div><div><p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#8c6d2e]">The story</p><h2 className="mt-5 text-5xl font-semibold leading-[0.96] tracking-[-0.055em] sm:text-6xl">Nature first.<br />People always.</h2><p className="mt-8 text-base leading-8 text-[#536357]">Cherry Wood Adventures is run by Sarah Wilesmith and takes inspiration from Forest School. The aim is simple: help people of all ages enjoy, understand and care for the natural environment.</p><p className="mt-5 text-base leading-8 text-[#536357]">The sessions are deliberately small, thoughtful and hands-on. Children can learn at their own pace, adults can reconnect with the outdoors, and bespoke activities can be shaped around a group.</p><div className="mt-9 grid grid-cols-2 gap-3 sm:grid-cols-4"><span className="rounded-full border border-[#183324]/10 bg-white/45 px-4 py-3 text-center text-xs font-medium">Forest School ethos</span><span className="rounded-full border border-[#183324]/10 bg-white/45 px-4 py-3 text-center text-xs font-medium">Fully insured</span><span className="rounded-full border border-[#183324]/10 bg-white/45 px-4 py-3 text-center text-xs font-medium">DBS checked</span><span className="rounded-full border border-[#183324]/10 bg-white/45 px-4 py-3 text-center text-xs font-medium">Bespoke options</span></div></div></div></div></section>
 
-      <section id="contact" className="relative px-6 py-36 lg:px-10"><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08),transparent_45%)]" /><div className="relative mx-auto max-w-5xl"><div className="mb-16 text-center"><p className="text-xs uppercase tracking-[0.4em] text-amber-400">Start a conversation</p><h2 className="mt-7 text-6xl font-semibold tracking-[-0.065em] sm:text-8xl">Let's make<br /><span className="text-amber-400">something great.</span></h2><p className="mx-auto mt-8 max-w-lg text-lg leading-8 text-white/35">Questions, quotes or ready to get started? We'd love to hear from you.</p></div><EnquiryForm /><p className="mt-6 text-center text-sm text-white/25">Prefer email? <a className="text-amber-400/80 hover:text-amber-300" href={`mailto:${business.email}`}>{business.email}</a></p></div></section>
+      <section className="bg-[#173526] px-5 py-24 text-[#f6f1df] sm:px-8 lg:px-10 lg:py-32"><div className="mx-auto max-w-7xl"><div className="grid gap-6 md:grid-cols-3"><div className="rounded-[1.75rem] border border-white/10 bg-white/[0.035] p-7"><p className="text-3xl text-[#d8b86a]">01</p><h3 className="mt-12 text-xl font-semibold">Private woodland</h3><p className="mt-3 text-sm leading-7 text-white/45">Sessions use private woods, fields and dedicated outdoor learning spaces around Arlington and Eastbourne.</p></div><div className="rounded-[1.75rem] border border-white/10 bg-white/[0.035] p-7"><p className="text-3xl text-[#d8b86a]">02</p><h3 className="mt-12 text-xl font-semibold">Real-world skills</h3><p className="mt-3 text-sm leading-7 text-white/45">Bushcraft, fire lighting, wildlife, making, cooking, stories and nature study turn every session into an experience.</p></div><div className="rounded-[1.75rem] border border-white/10 bg-white/[0.035] p-7"><p className="text-3xl text-[#d8b86a]">03</p><h3 className="mt-12 text-xl font-semibold">Inclusive by design</h3><p className="mt-3 text-sm leading-7 text-white/45">The pace, activity and format can be adapted to the group, with a calm approach that helps children feel included.</p></div></div></div></section>
 
-      <footer className="border-t border-white/[0.07] px-6 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[0.2em] text-white/20 sm:flex-row"><p>© 2026 {business.name}</p><p>Local · Professional · Trusted</p></div></footer>
+      <section id="contact" className="px-5 py-28 sm:px-8 lg:px-10 lg:py-36"><div className="mx-auto max-w-5xl text-center"><p className="text-xs font-semibold uppercase tracking-[0.35em] text-[#8c6d2e]">Ready to get outside?</p><h2 className="mt-6 text-6xl font-semibold leading-[0.9] tracking-[-0.065em] sm:text-8xl">Your next<br /><span className="text-[#708170]">adventure starts here.</span></h2><p className="mx-auto mt-8 max-w-xl text-base leading-7 text-[#536357]">Sarah is available throughout the year for bookings and bespoke enquiries. Messages are checked at least daily.</p><div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row"><a href={`tel:${business.phone.replace(/\s/g, "")}`} className="rounded-full bg-[#183324] px-7 py-4 text-sm font-semibold text-[#f6f1df] transition hover:-translate-y-0.5 hover:bg-[#294b39]">Call {business.phone}</a><a href="https://www.cherrywoodadventures.co.uk/contact.html" target="_blank" rel="noreferrer" className="rounded-full border border-[#183324]/15 bg-white/50 px-7 py-4 text-sm font-semibold transition hover:bg-white">Contact / book ↗</a><a href="https://www.cherrywoodadventures.co.uk/events.html" target="_blank" rel="noreferrer" className="rounded-full border border-[#183324]/15 px-7 py-4 text-sm font-semibold transition hover:bg-white/40">Current events ↗</a></div><p className="mt-8 text-xs text-[#7a857d]">Sarah Wilesmith · 41 Cherry Garden Road · Eastbourne · BN20 8HF</p></div></section>
+
+      <footer className="border-t border-[#183324]/10 px-5 py-8 sm:px-8 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-3 text-xs uppercase tracking-[0.2em] text-[#758078] sm:flex-row"><p>© 2026 Cherry Wood Adventures</p><p>Wild learning · Sussex</p></div></footer>
     </main>
   );
 }
