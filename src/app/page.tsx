@@ -5,91 +5,95 @@ import { business } from "../config/business";
 import { media } from "../config/media";
 import { EnquiryForm } from "./_components/enquiry-form";
 
-const serviceCards = [
-  ["01", "Exceptional service", "Professional, reliable work delivered with care and attention to every detail."],
-  ["02", "Personal approach", "A genuinely local service built around understanding what each customer needs."],
-  ["03", "Beautiful results", "Quality you can see, experience and recommend. Nothing rushed. Nothing ordinary."],
+const serviceDetails = [
+  ["01", "Repointing", "Traditional lime or modern sand & cement systems, selected to suit the building."],
+  ["02", "Brickwork", "Repairs, rebuilding, walls, steps and exterior masonry carried out with care."],
+  ["03", "Patios & masonry", "Practical outdoor spaces and masonry work designed to look right and last."],
 ];
 
+const accent = "#9b5f3d";
+
 export default function Home() {
-  const [position, setPosition] = useState({ x: 50, y: 45 });
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const move = (x: number, y: number) => setPosition({ x: (x / window.innerWidth) * 100, y: (y / window.innerHeight) * 100 });
-    const mouse = (e: MouseEvent) => move(e.clientX, e.clientY);
-    const touch = (e: TouchEvent) => e.touches[0] && move(e.touches[0].clientX, e.touches[0].clientY);
-    window.addEventListener("mousemove", mouse);
-    window.addEventListener("touchmove", touch, { passive: true });
-    return () => {
-      window.removeEventListener("mousemove", mouse);
-      window.removeEventListener("touchmove", touch);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-amber-400 selection:text-black">
-      <nav className="fixed left-0 top-0 z-50 w-full border-b border-white/[0.07] bg-[#050505]/75 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
-          <a href="#" className="text-xl font-semibold tracking-[-0.04em]">{business.name}</a>
-          <div className="hidden items-center gap-9 text-sm text-white/45 md:flex">
-            <a href="#services" className="transition hover:text-white">Services</a>
-            <a href="#work" className="transition hover:text-white">Our work</a>
-            <a href="#about" className="transition hover:text-white">About</a>
-            <a href="#enquiry-form" className="transition hover:text-white">Enquire</a>
+    <main className="min-h-screen bg-[#f1eee7] text-[#171715] selection:bg-[#9b5f3d] selection:text-white">
+      <header className={`fixed left-0 top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-[#f1eee7]/92 shadow-[0_10px_40px_rgba(0,0,0,.08)] backdrop-blur-xl" : "bg-transparent"}`}>
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8 lg:px-10">
+          <a href="#top" className="flex items-center gap-3">
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-[#171715] text-sm font-semibold text-[#f1eee7]">J/J</span>
+            <span className="hidden text-sm font-semibold tracking-[0.08em] sm:block">JOINT TO JOINT</span>
+          </a>
+          <div className="hidden items-center gap-8 text-xs font-medium uppercase tracking-[0.18em] text-[#171715]/60 md:flex">
+            <a href="#services" className="hover:text-[#171715]">Services</a>
+            <a href="#approach" className="hover:text-[#171715]">Our approach</a>
+            <a href="#work" className="hover:text-[#171715]">Work</a>
+            <a href="#enquire" className="hover:text-[#171715]">Contact</a>
           </div>
-          <a href="#enquiry-form" className="rounded-full border border-amber-400/30 bg-amber-400/10 px-5 py-2.5 text-sm font-medium text-amber-300 transition hover:bg-amber-400 hover:text-black">Get Started</a>
-        </div>
-      </nav>
+          <a href="#enquiry-form" className="rounded-full bg-[#9b5f3d] px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-lg shadow-[#9b5f3d]/15 transition hover:-translate-y-0.5">Free quote</a>
+        </nav>
+      </header>
 
-      <section className="relative flex min-h-screen items-end px-6 pb-16 pt-28 lg:px-10 lg:pb-20" style={{ background: `radial-gradient(circle 420px at ${position.x}% ${position.y}%, rgba(245,158,11,0.14), transparent 70%)` }}>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,5,0.15)_0%,rgba(5,5,5,0.4)_45%,#050505_100%)]" />
-        <div className="absolute inset-0 opacity-55" style={{ backgroundImage: `url(${media.hero.src})`, backgroundPosition: "center", backgroundSize: "cover" }} />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(5,5,5,0.92)_0%,rgba(5,5,5,0.55)_45%,rgba(5,5,5,0.25)_100%)]" />
-        <div className="relative mx-auto w-full max-w-7xl">
-          <div className="mb-8 flex items-center gap-3 text-xs uppercase tracking-[0.35em] text-white/55"><span className="h-px w-10 bg-amber-400/70" />{business.tagline}</div>
-          <h1 className="max-w-6xl text-[15vw] font-semibold leading-[0.82] tracking-[-0.075em] sm:text-8xl lg:text-[9rem]">Great<br /><span className="relative">service<span className="absolute -bottom-2 left-1 h-px w-24 bg-amber-400/80 sm:w-40" /></span><span className="text-amber-400">.</span></h1>
-          <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_340px] lg:items-end">
-            <p className="max-w-xl text-lg leading-8 text-white/65 sm:text-xl">Professional service from a local business that genuinely cares about the details, the experience and the final result.</p>
-            <div><p className="mb-4 text-xs uppercase tracking-[0.3em] text-white/40">The standard</p><p className="text-3xl font-medium tracking-tight">Beautiful <span className="text-amber-400">results.</span></p></div>
-          </div>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-            <a href="#enquiry-form" className="group relative overflow-hidden rounded-full bg-amber-400 px-8 py-4 text-center font-semibold text-black transition duration-300 hover:-translate-y-1"><span className="relative z-10">Book / Enquire</span><span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 group-hover:translate-x-0" /></a>
-            <a href="#work" className="rounded-full border border-white/20 bg-black/20 px-8 py-4 text-center font-medium text-white/80 backdrop-blur transition hover:border-white/35 hover:bg-white/[0.06] hover:text-white">See the work ↓</a>
-          </div>
-        </div>
-      </section>
-
-      <section id="services" className="border-t border-white/[0.07] px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-16 flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">What we do</p><h2 className="mt-5 max-w-2xl text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Less ordinary.<br /><span className="text-white/25">More memorable.</span></h2></div><p className="max-w-xs text-sm leading-6 text-white/35">A carefully considered service from first contact to final result.</p></div>
-          <div className="grid gap-5 md:grid-cols-3">
-            {serviceCards.map(([number, title, text], index) => <article key={number} className="group overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-white/[0.025] transition duration-500 hover:-translate-y-1 hover:border-amber-400/20"><div className="h-56 overflow-hidden" style={{ backgroundImage: `linear-gradient(180deg,rgba(5,5,5,0.05),rgba(5,5,5,0.55)),url(${media.services[index].src})`, backgroundPosition: "center", backgroundSize: "cover" }} /><div className="min-h-[250px] p-8"><div className="flex items-start justify-between"><span className="text-sm text-amber-400/70">{number}</span><span className="text-xl text-white/15 transition duration-500 group-hover:text-amber-400">↗</span></div><div className="mt-16"><h3 className="text-2xl font-medium tracking-tight transition group-hover:text-amber-400">{title}</h3><p className="mt-4 text-sm leading-7 text-white/40">{text}</p></div></div></article>)}
-          </div>
-        </div>
-      </section>
-
-      <section id="work" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex items-end justify-between gap-6"><div><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Our work</p><h2 className="mt-4 text-5xl font-semibold tracking-[-0.05em] sm:text-7xl">Made to be<br /><span className="text-white/25">noticed.</span></h2></div><p className="hidden max-w-xs text-sm leading-6 text-white/30 sm:block">A visual gallery section ready for genuine client photography.</p></div>
-          <div className="grid gap-5 md:grid-cols-[1.15fr_0.85fr]">
-            <div className="min-h-[430px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(5,5,5,0.6)),url(${media.gallery[0].src})` }}>
-              <div className="flex h-full items-end p-8"><span className="rounded-full border border-white/15 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white/65 backdrop-blur">Featured project · Demo imagery</span></div>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2 md:grid-cols-1">
-              {media.gallery.slice(1).map((image) => <div key={image.src} className="min-h-[205px] rounded-[2rem] border border-white/10 bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 30%,rgba(5,5,5,0.5)),url(${image.src})` }} />)}
+      <section id="top" className="relative min-h-[92vh] overflow-hidden px-5 pb-12 pt-28 sm:px-8 lg:px-10">
+        <div className="absolute inset-0 bg-[#dcd7cb]" />
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[57%]" style={{ backgroundImage: `linear-gradient(90deg,rgba(241,238,231,1) 0%,rgba(241,238,231,.38) 25%,rgba(241,238,231,.02) 55%),url(${media.hero.src})`, backgroundPosition: "center", backgroundSize: "cover" }} />
+        <div className="relative mx-auto flex min-h-[calc(92vh-8rem)] max-w-7xl items-end">
+          <div className="max-w-3xl pb-6 sm:pb-12 lg:pb-16">
+            <p className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#9b5f3d]"><span className="h-px w-12 bg-[#9b5f3d]" />{business.location}</p>
+            <h1 className="text-[18vw] font-semibold leading-[0.82] tracking-[-0.075em] sm:text-8xl lg:text-[8.5rem]">Good work.<br /><span className="text-[#9b5f3d]">Done properly.</span></h1>
+            <p className="mt-9 max-w-xl text-lg leading-8 text-[#171715]/65 sm:text-xl">{business.description}</p>
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a href="#enquiry-form" className="rounded-full bg-[#171715] px-7 py-4 text-center text-sm font-semibold text-white transition hover:-translate-y-1">Request a quote ↗</a>
+              <a href={`tel:${business.phone.replace(/\s/g, "")}`} className="rounded-full border border-[#171715]/20 bg-[#f1eee7]/60 px-7 py-4 text-center text-sm font-semibold backdrop-blur transition hover:bg-white">Call {business.phone}</a>
             </div>
           </div>
-          <p className="mt-5 text-xs uppercase tracking-[0.25em] text-white/20">Demo photography only · replace with genuine client work before launch</p>
         </div>
       </section>
 
-      <section id="about" className="px-6 py-28 lg:px-10">
-        <div className="mx-auto max-w-7xl"><div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.025] p-8 sm:p-14 lg:p-20"><div className="pointer-events-none absolute h-96 w-96 rounded-full bg-amber-400/[0.07] blur-3xl" style={{ left: `${position.x - 20}%`, top: `${position.y - 40}%` }} /><div className="relative max-w-4xl"><p className="text-xs uppercase tracking-[0.35em] text-amber-400">Why choose us</p><h2 className="mt-6 text-5xl font-semibold tracking-[-0.055em] sm:text-7xl">Premium isn't<br /><span className="text-white/25">a price tag.</span></h2><p className="mt-10 max-w-2xl text-lg leading-8 text-white/40">It's the feeling that someone cared. Every interaction, every detail and every finished result should feel considered.</p><div className="mt-14 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-3"><div><p className="text-4xl font-semibold">01</p><p className="mt-2 text-sm text-white/30">Personal</p></div><div><p className="text-4xl font-semibold">02</p><p className="mt-2 text-sm text-white/30">Professional</p></div><div><p className="text-4xl font-semibold">03</p><p className="mt-2 text-sm text-white/30">Precise</p></div></div></div></div></div>
+      <section className="border-y border-[#171715]/10 bg-[#171715] px-5 py-5 text-[#f1eee7] sm:px-8 lg:px-10">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-8 gap-y-3 text-xs font-medium uppercase tracking-[0.2em] text-white/65">
+          <span>Family run</span><span className="text-[#9b5f3d]">●</span><span>40+ years experience</span><span className="text-[#9b5f3d]">●</span><span>Eastbourne & Sussex</span><span className="text-[#9b5f3d]">●</span><span>Free quotes</span>
+        </div>
       </section>
 
-      <section id="contact" className="relative px-6 py-36 lg:px-10"><div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.08),transparent_45%)]" /><div className="relative mx-auto max-w-5xl"><div className="mb-16 text-center"><p className="text-xs uppercase tracking-[0.4em] text-amber-400">Start a conversation</p><h2 className="mt-7 text-6xl font-semibold tracking-[-0.065em] sm:text-8xl">Let's make<br /><span className="text-amber-400">something great.</span></h2><p className="mx-auto mt-8 max-w-lg text-lg leading-8 text-white/35">Questions, quotes or ready to get started? We'd love to hear from you.</p></div><EnquiryForm /><p className="mt-6 text-center text-sm text-white/25">Prefer email? <a className="text-amber-400/80 hover:text-amber-300" href={`mailto:${business.email}`}>{business.email}</a></p></div></section>
+      <section id="services" className="px-5 py-24 sm:px-8 lg:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-[.7fr_1.3fr]">
+            <div><p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9b5f3d]">What we do</p><h2 className="mt-5 text-5xl font-semibold tracking-[-0.06em] sm:text-6xl">Built for the<br />long term.</h2></div>
+            <div className="divide-y divide-[#171715]/10 border-y border-[#171715]/10">
+              {serviceDetails.map(([number, title, text]) => <article key={number} className="grid gap-5 py-8 sm:grid-cols-[70px_1fr_1.4fr] sm:items-start"><span className="text-sm font-semibold text-[#9b5f3d]">{number}</span><h3 className="text-2xl font-medium tracking-tight">{title}</h3><p className="text-sm leading-7 text-[#171715]/55">{text}</p></article>)}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <footer className="border-t border-white/[0.07] px-6 py-10 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 text-xs uppercase tracking-[0.2em] text-white/20 sm:flex-row"><p>© 2026 {business.name}</p><p>Local · Professional · Trusted</p></div></footer>
+      <section id="approach" className="bg-[#ded8cc] px-5 py-24 sm:px-8 lg:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
+            <div><p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9b5f3d]">The Joint to Joint way</p><h2 className="mt-6 text-5xl font-semibold tracking-[-0.06em] sm:text-7xl">Restore it.<br /><span className="text-[#171715]/35">Don't just cover it.</span></h2><p className="mt-8 max-w-xl text-lg leading-8 text-[#171715]/60">From traditional lime pointing to modern repairs, the right method matters. We take the time to understand the building before deciding what it needs.</p></div>
+            <div className="grid grid-cols-2 gap-4"><div className="rounded-[2rem] bg-[#171715] p-7 text-[#f1eee7] sm:p-9"><p className="text-5xl font-semibold text-[#9b5f3d]">01</p><p className="mt-20 text-sm leading-6 text-white/55">Inspect carefully</p></div><div className="mt-12 rounded-[2rem] bg-[#f1eee7] p-7 shadow-sm sm:p-9"><p className="text-5xl font-semibold">02</p><p className="mt-20 text-sm leading-6 text-[#171715]/45">Recommend honestly</p></div><div className="rounded-[2rem] bg-[#9b5f3d] p-7 text-white sm:p-9"><p className="text-5xl font-semibold">03</p><p className="mt-20 text-sm leading-6 text-white/75">Build properly</p></div><div className="mt-12 rounded-[2rem] border border-[#171715]/15 p-7 sm:p-9"><p className="text-5xl font-semibold">04</p><p className="mt-20 text-sm leading-6 text-[#171715]/45">Leave it tidy</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work" className="px-5 py-24 sm:px-8 lg:px-10 lg:py-32">
+        <div className="mx-auto max-w-7xl"><div className="mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9b5f3d]">Work & detail</p><h2 className="mt-5 text-5xl font-semibold tracking-[-0.06em] sm:text-7xl">Craft is<br />in the detail.</h2></div><p className="max-w-sm text-sm leading-7 text-[#171715]/45">A gallery ready for genuine project photography — the finished site can showcase their actual work here.</p></div>
+          <div className="grid gap-5 md:grid-cols-[1.35fr_.65fr]"><div className="min-h-[520px] rounded-[2rem] bg-cover bg-center" style={{ backgroundImage: `linear-gradient(180deg,transparent 45%,rgba(0,0,0,.55)),url(${media.gallery[0].src})` }}><div className="flex h-full items-end p-7"><span className="rounded-full bg-[#f1eee7]/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em]">Demo imagery · replace before launch</span></div></div><div className="grid gap-5 sm:grid-cols-2 md:grid-cols-1"><div className="min-h-[250px] rounded-[2rem] bg-cover bg-center" style={{ backgroundImage: `url(${media.gallery[1].src})` }} /><div className="min-h-[250px] rounded-[2rem] bg-cover bg-center" style={{ backgroundImage: `url(${media.gallery[2].src})` }} /></div></div>
+        </div>
+      </section>
+
+      <section id="enquire" className="bg-[#171715] px-5 py-24 text-[#f1eee7] sm:px-8 lg:px-10 lg:py-32">
+        <div className="mx-auto max-w-6xl"><div className="mb-14 grid gap-8 lg:grid-cols-[.8fr_1.2fr] lg:items-end"><div><p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#9b5f3d]">Start with a conversation</p><h2 className="mt-5 text-5xl font-semibold tracking-[-0.06em] sm:text-7xl">Tell us what<br />needs doing.</h2></div><p className="max-w-lg text-lg leading-8 text-white/45">Whether it's a small repair or a larger restoration project, send the details and we'll take it from there.</p></div><div className="rounded-[2rem] bg-[#f1eee7] p-5 text-[#171715] sm:p-8 lg:p-10"><EnquiryForm /></div><div className="mt-7 flex flex-col gap-3 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between"><span>Prefer a direct conversation?</span><a className="font-semibold text-[#9b5f3d]" href={`tel:${business.phone.replace(/\s/g, "")}`}>{business.phone}</a><a className="font-semibold text-[#9b5f3d]" href={`mailto:${business.email}`}>{business.email}</a></div></div>
+      </section>
+
+      <footer className="bg-[#171715] px-5 pb-10 text-[#f1eee7] sm:px-8 lg:px-10"><div className="mx-auto flex max-w-7xl flex-col justify-between gap-4 border-t border-white/10 pt-7 text-xs uppercase tracking-[0.18em] text-white/25 sm:flex-row"><span>© 2026 {business.name}</span><span>{business.location}</span></div></footer>
     </main>
   );
 }

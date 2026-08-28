@@ -10,26 +10,23 @@ export type BusinessConfig = {
   bookingUrl: string;
 };
 
-/**
- * Master template configuration.
- * Change this file for each client; the page stays the same.
- */
+/** Prospect-specific demo configuration. */
 export const business: BusinessConfig = {
-  name: "Hawthorne & Stone",
-  email: "hello@yourbusiness.co.uk",
-  phone: "",
-  tagline: "Independent · Local · Trusted",
-  location: "",
+  name: "Joint to Joint",
+  email: "Richard@joint-to-joint.co.uk",
+  phone: "07877 146685",
+  tagline: "REPOINTING · BRICKWORK · RESTORATION",
+  location: "Eastbourne · Sussex",
   description:
-    "Professional local service with a premium, personal approach and attention to every detail.",
+    "Family-run brickwork and repointing specialists with decades of experience restoring and protecting homes across Eastbourne and Sussex.",
   services: [
-    "General property care",
-    "Maintenance & repairs",
-    "Exterior work",
-    "Interior work",
-    "Other / not sure",
+    "Traditional lime repointing",
+    "Sand & cement repointing",
+    "Brickwork repairs",
+    "Patios & masonry",
+    "Exterior repairs",
+    "Not sure — tell us what you need",
   ],
-  enquiryTypes: ["Request a quote", "Booking", "General enquiry"],
-  // Add a Calendly/booking URL for a client when they have one. Leave empty to use the enquiry form.
+  enquiryTypes: ["Request a quote", "Book a survey", "General enquiry"],
   bookingUrl: "",
 };
